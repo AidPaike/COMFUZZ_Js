@@ -19,8 +19,8 @@ if __name__ == '__main__':
     hparams = Hparams().parser.parse_args()
     # init databases
     try:
-        cmd = "python3 /root/comfuzz/comfuzz_js/web/manage.py makemigrations && python3  " \
-              "/root/comfuzz/comfuzz_js/web/manage.py migrate"
+        cmd = "python3 /root/Comfuzz/COMFUZZ_js/web/manage.py makemigrations && python3  " \
+              "/root/Comfuzz/COMFUZZ_js/web/manage.py migrate"
         os.system(cmd)
         print('init databases success!')
     except Exception as e:

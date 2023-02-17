@@ -34,7 +34,7 @@ class mutation:
             :return: Returns true with correct syntax and false with incorrect syntax
             """
             # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-            cmd = ['timeout', '10s', 'jshint', '-c', '/root/comfuzz/confuzz_js/data/.jshintrc', temp_file_path]
+            cmd = ['timeout', '10s', 'jshint', '-c', '/root/Comfuzz/COMFUZZ_js/data/.jshintrc', temp_file_path]
 
             if sys.platform.startswith('win'):  # If it's windows
                 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)

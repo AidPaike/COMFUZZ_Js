@@ -11,16 +11,18 @@ class Django_work(object):
     # def __init__(self):
 
     def makemigrationsAndMigrate(self):
-        self.runShell('python3 /root/comfuzz/comfuzz/web/manage.py makemigrations && python3 /root/comfuzz/comfuzz/web/manage.py migrate')
+        self.runShell(
+            'python3 /root/Comfuzz/COMFUZZ_js/web/manage.py makemigrations && python3 /root/Comfuzz/COMFUZZ_js/web/manage.py migrate')
 
     def runserver(self):
-        self.runShell('python3 /root/comfuzz/comfuzz/web/manage.py runserver 0.0.0.0:10000')
+        self.runShell('python3 /root/Comfuzz/COMFUZZ_js/web/manage.py runserver 0.0.0.0:10000')
 
     def loaddata(self):
-        self.runShell('python3 /root/comfuzz/comfuzz/web/manage.py loaddata analysis_init_data.json')
+        self.runShell('python3 /root/Comfuzz/COMFUZZ_js/web/manage.py loaddata analysis_init_data.json')
 
     def backupData(self):
-        self.runShell('python3 /root/comfuzz/comfuzz/web/manage.py dumpdata analysis > analysis_init_data.json')
+        self.runShell('python3 /root/Comfuzz/COMFUZZ_js/web/manage.py dumpdata analysis > analysis_init_data.json')
+
 
 class Menu(object):
     def __init__(self):

@@ -353,7 +353,7 @@ class Function_Object(object):
         :return: 语法正确返回true,语法错误返回false
         """
         # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-        cmd = ['timeout', '60s', 'jshint', '-c', '/root/comfuzz/comfuzz_js/data/.jshintrc', temp_file_path]
+        cmd = ['timeout', '60s', 'jshint', '-c', '/root/Comfuzz/COMFUZZ_js/data/.jshintrc', temp_file_path]
 
         if sys.platform.startswith('win'):  # 假如是windows
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)

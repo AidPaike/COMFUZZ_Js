@@ -8,6 +8,6 @@ model_name = "distilgpt2"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
-model_path = "/root/comfuzz/comfuzz/data/train_model/"
+model_path = "/root/Comfuzz/COMFUZZ_js/data/train_model/"
 tokenizer.save_pretrained(model_path + model_name)
 model.save_pretrained(model_path + model_name)

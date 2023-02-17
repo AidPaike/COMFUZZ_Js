@@ -25,7 +25,7 @@ from transformers import pipeline
 
 class sourceToTable:
     def __init__(self):
-        self.js_dir = r"/root/comfuzz/comfuzz_js/data/JStestcases/"
+        self.js_dir = r"/root/Comfuzz/COMFUZZ_js/data/JStestcases/"
         self.lis = []
 
     def readFileAll(self, path):
@@ -62,7 +62,7 @@ class enrich_function:
             :return: Returns true with correct syntax and false with incorrect syntax
             """
             # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-            cmd = ['timeout', '10s', 'jshint', '-c', '/root/comfuzz/confuzz_js/data/.jshintrc', temp_file_path]
+            cmd = ['timeout', '10s', 'jshint', '-c', '/root/Comfuzz/COMFUZZ_js/data/.jshintrc', temp_file_path]
 
             if sys.platform.startswith('win'):  # If it's windows
                 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)

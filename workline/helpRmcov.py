@@ -5,7 +5,7 @@ from workline.mysql_tools.Table_Operation import Table_Testcase
 
 
 def removeCov(self, *profraws):
-    COV_PATH = "/root/comfuzz/comfuzz_js/data/cov_files"
+    COV_PATH = "/root/Comfuzz/COMFUZZ_js/data/cov_files"
     PROFRAWS_PATH = COV_PATH + "/profraws"
 
     profraws_cmd = ''

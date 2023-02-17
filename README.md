@@ -63,13 +63,13 @@ For more details, you can use `python3 main.py --help` to see what this paramete
 
 You can also use the following step-by-step instructions to run COMFUZZ:
 ### Step1. Generate test program:
-```python3 /root/COMFUZZ/comfuzz_js/workline/step1_generator.py```
+```python3 /root/Comfuzz/COMFUZZ_js/workline/step1_generator.py```
 ### Step2. Build the seed pool:
-```python3 /root/COMFUZZ/comfuzz_js/workline/step2_init.py```
+```python3 /root/Comfuzz/COMFUZZ_js/workline/step2_init.py```
 ### Step3. Differential testing:
-```python3 /root/COMFUZZ/comfuzz_js/workline/step3_harness.py```
+```python3 /root/Comfuzz/COMFUZZ_js/workline/step3_harness.py```
 ### Step4. Mutation:
-```python3 /root/COMFUZZ/comfuzz_js/workline/step4_mutation.py```
+```python3 /root/Comfuzz/COMFUZZ_js/workline/step4_mutation.py```
 
 
 

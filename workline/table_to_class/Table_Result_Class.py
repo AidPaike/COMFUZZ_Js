@@ -1,10 +1,11 @@
 import sys
-sys.path.append('/root/Comfort_all')
+
+sys.path.append('/root/Comfuzz')
+
 
 class Result_Object(object):
 
     def __init__(self, result_object):
-
         self.Id = result_object[0]
         self.Testcase_Id: str = result_object[1]
         self.Testbed_Id = result_object[2]
