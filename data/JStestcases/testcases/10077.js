@@ -1,0 +1,4 @@
+function(b = eval()) {
+    ""
+    eval()
+}

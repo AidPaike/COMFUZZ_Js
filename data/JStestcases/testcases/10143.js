@@ -1,0 +1,3 @@
+function() {
+    throw "@@toStringTag called!"
+}

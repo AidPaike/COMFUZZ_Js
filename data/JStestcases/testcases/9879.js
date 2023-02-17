@@ -1,0 +1,3 @@
+function() {
+    ''.matchAll(/a/g);
+}

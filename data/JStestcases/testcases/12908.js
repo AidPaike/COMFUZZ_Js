@@ -1,0 +1,5 @@
+function() {
+    "".indexOf({
+        [Symbol.toPrimitive]: {}
+    });
+}

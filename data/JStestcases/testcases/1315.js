@@ -1,0 +1,3 @@
+function() {
+    ''.repeat(Infinity);
+}

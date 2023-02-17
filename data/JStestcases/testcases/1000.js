@@ -1,0 +1,3 @@
+function() {
+    eval("this.x")
+}

@@ -1,0 +1,3 @@
+function(object) {
+    return object + "";
+}

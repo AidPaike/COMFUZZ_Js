@@ -1,0 +1,3 @@
+function() {
+    this.foo = "bar";
+}

@@ -1,0 +1,3 @@
+function() {
+    throw TypeError("HAHA!");
+}

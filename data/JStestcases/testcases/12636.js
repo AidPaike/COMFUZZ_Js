@@ -1,0 +1,3 @@
+function() {
+    try {} catch (e) {}
+}

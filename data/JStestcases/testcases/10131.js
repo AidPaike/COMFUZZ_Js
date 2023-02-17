@@ -1,0 +1,3 @@
+function(prop) {
+    return prop
+}

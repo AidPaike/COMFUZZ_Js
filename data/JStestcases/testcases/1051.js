@@ -1,0 +1,3 @@
+function() {
+    Reflect.construct(function() {}, [], {});
+}

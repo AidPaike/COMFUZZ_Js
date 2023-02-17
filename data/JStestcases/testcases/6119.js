@@ -1,0 +1,3 @@
+function(parentObj) {
+    "use strict";
+}

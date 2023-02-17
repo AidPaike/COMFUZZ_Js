@@ -1,0 +1,3 @@
+function() {
+    [].funStrict.call();
+}

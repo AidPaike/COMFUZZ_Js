@@ -1,0 +1,3 @@
+function() {
+    Symbol.keyFor(arguments);
+}

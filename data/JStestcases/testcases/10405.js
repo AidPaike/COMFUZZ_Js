@@ -1,0 +1,3 @@
+function(callsite) {
+    return callsite;
+}

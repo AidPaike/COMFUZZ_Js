@@ -1,0 +1,5 @@
+function() {
+    return {
+        calls: 'toJSON'
+    };
+}

@@ -1,0 +1,3 @@
+function() {
+    String.fromCodePoint(undefined);
+}

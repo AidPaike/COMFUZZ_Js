@@ -1,0 +1,3 @@
+function() {
+    this.satisfied = false;
+}

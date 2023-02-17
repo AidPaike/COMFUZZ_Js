@@ -1,0 +1,3 @@
+function() {
+    Object.getOwnPropertyNames(undefined);
+}

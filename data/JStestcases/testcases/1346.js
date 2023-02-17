@@ -1,0 +1,3 @@
+function*() {
+    yield this.valueOf();
+}
