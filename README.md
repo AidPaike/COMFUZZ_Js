@@ -8,7 +8,7 @@ COMFUZZ is a compiler fuzzing framework that combining generative and mutation t
 We provide a [Docker image](https://zenodo.org/record/7602317) to run "out of box". The docker image was tested on a host machine running Ubuntu 18.04.
 The docker image contains the following scripts for running COMFUZZ:
 
-* [step1_generator.py](): the script that generates test programs according to historical test programs.  超参数（数量、、）
+* [step1_generator.py](): the script that generates test programs according to historical test programs.
 * [step2_init.py](): the script that builds the initial seed pool.
 * [step3_harness.py](): the script that performs the differential testing on target compilers.  js/java 
 * [step4_mutation.py](): the script that mutates the interesting test cases for focused and intensive testing.
