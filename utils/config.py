@@ -1,7 +1,7 @@
 # sql_config
-DATABASE_ADDRESS = '10.15.0.37'
-DATABASE_PORT = 12004
-DATABASE_NAME = 'comfuzz'
+DATABASE_ADDRESS = 'comfort_mysql'
+DATABASE_PORT = 33061
+DATABASE_NAME = 'JSFuzzing'
 DATABASE_USER = 'root'
 DATABASE_PASSWORD = 'mysql123'
 # gpt_config
