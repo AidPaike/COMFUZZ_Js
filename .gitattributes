@@ -1,3 +1,4 @@
 data/train_data_bos.txt filter=lfs diff=lfs merge=lfs -text
 data/model/distilgpt2/checkpoint-640000/optimizer.pt filter=lfs diff=lfs merge=lfs -text
 data/model/distilgpt2/checkpoint-640000/pytorch_model.bin filter=lfs diff=lfs merge=lfs -text
+data/jsvu.tar.gz filter=lfs diff=lfs merge=lfs -text

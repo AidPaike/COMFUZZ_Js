@@ -103,5 +103,5 @@ class analysis:
 if __name__ == '__main__':
     harness = harness()
     analysis = analysis()
-    harness.run()
+    harness.run(harness.get_list())
     analysis.run()

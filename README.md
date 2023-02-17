@@ -16,29 +16,60 @@ The docker image contains the following scripts for running COMFUZZ:
 You can use the following step-by-step instructions to run COMFUZZ:
 
 ## Setup
-### 1.1 Load the Docker Image
+There are two ways you can start a change project
+
+### Method 1 ： Load the Docker Image
 After downloading the [docker image](https://zenodo.org/record/7602317), using below commands to load the docker image on the host machine:
 ```
 Commands that how to load docker image.
 docker exec -it comfuzz_container bash
 ```
-### 1.2 Setup Environmental Parameters
-After improting the docker container, using the following command to setup the environmental variable before executing COMFUZZ:
+
+### Method 2 ： Setup Environmental Parameters
+You can get Dockerfile and docker-compose here [COMFUZZ](https://github.com/NWU-NISL-Fuzzing/COMFUZZ)
 ```
-bash /root/Comfort_all/initialize.sh
+cd COMFUZZ
+
+docker-compose up -d
 ```
-This shell script will also create MySql databases used for differential testing and mutation.
+
+[//]: # (### Method 2 ： Setup Environmental Parameters)
+
+[//]: # (After improting the docker container, using the following command to setup the environmental variable before executing COMFUZZ:)
+
+[//]: # (```)
+
+[//]: # (bash /root/Comfort_all/initialize.sh)
+
+[//]: # (```)
+
+[//]: # (This shell script will also create MySql databases used for differential testing and mutation.)
 
 ## Run
-You can use the following step-by-step instructions to run COMFUZZ:
+
+To facilitate testing, COMFUZZ provides quick-run command：
+```
+python3 main.py
+```
+
+If you want to see how the overall process works：
+```
+python3 main.py --enrich_limit_num=10 --loop_times=5 --clean_project
+```
+
+For more details, you can use `python3 main.py --help` to see what this parameter means.
+
+---
+
+You can also use the following step-by-step instructions to run COMFUZZ:
 ### Step1. Generate test program:
-```python /root/COMFUZZ/src/step1_generator.py```
+```python3 /root/COMFUZZ/comfuzz_js/workline/step1_generator.py```
 ### Step2. Build the seed pool:
-```python /root/COMFUZZ/src/step2_init.py```
+```python3 /root/COMFUZZ/comfuzz_js/workline/step2_init.py```
 ### Step3. Differential testing:
-```python /root/COMFUZZ/src/harness.py```
+```python3 /root/COMFUZZ/comfuzz_js/workline/step3_harness.py```
 ### Step4. Mutation:
-```python /root/COMFUZZ/src/mutation.py```
+```python3 /root/COMFUZZ/comfuzz_js/workline/step4_mutation.py```
 
 
 

@@ -203,4 +203,4 @@ class mutation:
 
 if __name__ == '__main__':
     mutation = mutation()
-    mutation.run()
+    mutation.run('both', 0, 0)

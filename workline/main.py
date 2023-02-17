@@ -6,8 +6,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from step1_generator import sourceToTable, enrich_function
 from step2_init import initproject, removeDB
-from harness import harness, analysis
-from mutation import mutation
+from step3_harness import harness, analysis
+from step4_mutation import mutation
 from loopProject import loopProject
 
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
@@ -18,26 +18,27 @@ import time
 if __name__ == '__main__':
     hparams = Hparams().parser.parse_args()
     # init databases
-    # try:
-    #     cmd = "python3 /root/comfuzz/comfuzz_js/web/manage.py makemigrations && python3  " \
-    #           "/root/comfuzz/comfuzz_js/web/manage.py migrate"
-    #     os.system(cmd)
-    # except Exception as e:
-    #     print('init databases success!')
-    # # clean project database
-    # if hparams.clean_project:
-    #     removeDB = removeDB()
-    #     removeDB.run()
-    #     print("*" * 10 + "clean database success!" + "*" * 10)
-    #
-    # # step1 generator
-    # sourcetotable = sourceToTable()
-    # enrichfunction = enrich_function()
-    # generator_start = time.time()
-    # sourcetotable.run(js_dir=sourcetotable.js_dir)
-    # print('source To Table is used:', int(time.time() - generator_start), 's')
-    # enrichfunction.run(limit_num=hparams.enrich_limit_num)
-    # print('enrich function is used:', int(time.time() - generator_start), 's')
+    try:
+        cmd = "python3 /root/comfuzz/comfuzz_js/web/manage.py makemigrations && python3  " \
+              "/root/comfuzz/comfuzz_js/web/manage.py migrate"
+        os.system(cmd)
+        print('init databases success!')
+    except Exception as e:
+        print('init databases error!')
+    # clean project database
+    if hparams.clean_project:
+        removeDB = removeDB()
+        removeDB.run()
+        print("*" * 10 + "clean database success!" + "*" * 10)
+
+    # step1 generator
+    sourcetotable = sourceToTable()
+    enrichfunction = enrich_function()
+    generator_start = time.time()
+    sourcetotable.run(js_dir=sourcetotable.js_dir)
+    print('source To Table is used:', int(time.time() - generator_start), 's')
+    enrichfunction.run(limit_num=hparams.enrich_limit_num)
+    print('enrich function is used:', int(time.time() - generator_start), 's')
     #
     # step2 init
     initproject = initproject()
@@ -55,11 +56,11 @@ if __name__ == '__main__':
     while True:
         loopProject = loopProject(interesting_times, Fuzzing_times)
         list_interesting, len_list_interesting = loopProject.run()
-        ## 如果返回长度是0，那么就将looptimes回归1 再继续
+
         if len_list_interesting == 0 or loop_times == hparams.loop_times:
             interesting_times = 0
             Fuzzing_times = 1
-        ## 如果返回长度不是0 那么就直接给harness进行测试
+
         else:
             harness.run(list_unharness=list_interesting)
             interesting_times = 1
