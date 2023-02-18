@@ -49,6 +49,7 @@ if __name__ == '__main__':
 
     # mutation
     mutation = mutation()
+    analysis = analysis()
     # step4 loop
     loop_times = 0
     interesting_times = 0
@@ -63,6 +64,7 @@ if __name__ == '__main__':
 
         else:
             harness.run(list_unharness=list_interesting)
+            analysis.run()
             interesting_times = 1
             Fuzzing_times = 1
             loop_times += 1
@@ -70,6 +72,9 @@ if __name__ == '__main__':
         if interesting_times == 1 and Fuzzing_times == 1:
             mutation.run('special', interesting_times, Fuzzing_times)
             harness.run(harness.list_11())
+            analysis.run()
         elif interesting_times == 0 and Fuzzing_times == 1:
             mutation.run('universal', interesting_times, Fuzzing_times)
             harness.run(harness.list_01())
+            analysis.run()
+

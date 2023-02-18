@@ -75,10 +75,9 @@ class harness:
 class analysis:
     def __init__(self):
         self.table_suspicious_Result = Table_Suspicious_Result()
-        # 分析未分析的可以用例
-        # unfiltered_list = table_suspicious_Result.selectUnFilteredFromTable_Suspicious_Result()
-        self.unfiltered_list = self.table_suspicious_Result.selectUnFilteredFromTable_Suspicious_Result_with_error_type(
-            "'crash'")
+        self.unfiltered_list = self.table_suspicious_Result.selectUnFilteredFromTable_Suspicious_Result()
+        # self.unfiltered_list = self.table_suspicious_Result.selectUnFilteredFromTable_Suspicious_Result_with_error_type(
+        #     "'crash'")
         self.pbar = tqdm(total=len(self.unfiltered_list))
         self.start_time = time.time()
 
@@ -87,7 +86,7 @@ class analysis:
         try:
             suspicious_result.analysis()
         except:
-            print('*' * 25 + f'自动分析用例{suspicious_result.Testcase_id}出错' + '*' * 25)
+            print('*' * 25 + f'Automatically analyze use cases{suspicious_result.Testcase_id}error' + '*' * 25)
         self.pbar.update(1)
 
     def run(self):
