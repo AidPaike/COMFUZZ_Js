@@ -31,10 +31,6 @@ class Suspicious_Result_Object(object):
         return testcase[1]
 
     def getResultListAndReturnCode(self):
-        """
-        通过testcases id反查
-        :return:
-        """
         table_Result = Table_Result()
         Result_list = table_Result.selectTestcasesFromTableResult(self.Testcase_id)
         # print(Result_list)
@@ -48,11 +44,6 @@ class Suspicious_Result_Object(object):
         return result_object_dict, returncode
 
     def extractYaml1(self):
-        """
-        通过return code来检索文档
-        :return: 找到的话返回当前return code类，进行下一步检索
-        找不到就返回None
-        """
         for returncode_type in filter_info:
             if returncode_type['returncode'] == self.Returncode:
                 return returncode_type
@@ -60,10 +51,6 @@ class Suspicious_Result_Object(object):
             return None
 
     def extractYaml2(self, error_info_list):
-        """
-        检索error info，提取出stdout，和stderr。
-        :return:返回两个list，里面分别是stdout和stderr
-        """
         # flag = True
         error_type_list = []
         # print(error_info_list)
@@ -86,13 +73,10 @@ class Suspicious_Result_Object(object):
                 if codeList is not None and flag:
                     flag = self.compareInfo('Code', codeList)
                 if flag:
-                    # print(error_info_item['remark-id'],'合格')
                     error_type_list.append(error_info_item)
                 else:
-                    # print(f"remark-id是{error_info_item['remark-id']},报错信息不匹配")
                     pass
             else:
-                # print(f"remark-id是{error_info_item['remark-id']},缺少报错引擎的info")
                 pass
         # print(error_type_list)
         return error_type_list
@@ -105,27 +89,19 @@ class Suspicious_Result_Object(object):
         else:
             Returncode_block = self.extractYaml1()
             if not Returncode_block:
-                # print('没有匹配到return code')
-                # todo 进行人工分析
                 pass
             else:
-                # print('匹配到return code', self.Returncode)
                 error_info_list = self.extractYaml2(Returncode_block['error_info'])
                 if len(error_info_list) == 0:
                     pass
-                    # print('info对不上')
-                    # todo 进行人工分析
                 else:
                     remark_id = ""
                     for error_info_item in error_info_list:
-                        # print(f"remark-id是{error_info_item['remark-id']},错误原因是:{error_info_item['remark']}")
                         remark_id += f"({str(error_info_item['remark-id'])})"
                     table_suspicious_Result = Table_Suspicious_Result()
                     try:
                         table_suspicious_Result.updateIs_filtered(self.Id, remark_id)
-                        # print(f'将{remark_id}存入数据库')
                     except:
-                        # print('存入数据库失败')
                         pass
 
     def judgeInfo(self, stdout: str, info: str):
@@ -147,10 +123,8 @@ class Suspicious_Result_Object(object):
         matches = re.finditer(regex, test_str, re.MULTILINE)
 
         for matchNum, match in enumerate(matches, start=1):
-            # print('正则匹配成功')
             return True
 
-        # print('正则匹配失败')
         return False
 
     def compareInfo(self, type, stdList):
@@ -162,9 +136,7 @@ class Suspicious_Result_Object(object):
                 # print('info:',std['info'])
                 if self.judgeInfoByRegex(self.ResultDict.get(std['engine']).Stdout, std['info']):
                     pass
-                    # print('stdout合格')
                 else:
-                    # print('stdout不合格')
                     return False
 
             if type == 'Stderr':
@@ -172,27 +144,17 @@ class Suspicious_Result_Object(object):
                 # print('info:',std['info'])
                 if self.judgeInfoByRegex(self.ResultDict.get(std['engine']).Stderr, std['info']):
                     pass
-                    # print('stderr合格')
                 else:
-                    # print('stderr不合格')
                     return False
             if type == 'Code':
                 if self.judgeInfoByRegex(self.Code_content, std['content']):
                     pass
-                    # print('code合格')
                 else:
-                    # print('code不合格')
                     return False
         return True
 
         # if type == 'stdout':
 
-    #  测试crash过滤
-    # def analyseCrash(self):
-    #     if self.Error_type == "crash" and (self.Testbed_id == 3 or self.Testbed_id == 6 or self.Testbed_id == 9):
-    #         testcase = self.Code_content
-    #         # print(testcase)
-    #         self.runWithAsan(testcase)
 
     def runWithAsan(self, testcase):
         timeout = 30

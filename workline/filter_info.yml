@@ -7,7 +7,7 @@ returncode_type:
           - engine: 8
             info: 'warning: Direct call to eval(), but lexical scope is not supported.'
         Code:
-        remark: 误报，hermes eval()传入字符串报错
+        remark: False positive，hermes eval() passed an error string
         remark-id: '1.1'
 
       - Stdout:
@@ -19,7 +19,7 @@ returncode_type:
           - engine: 9
             info: "ReferenceError: 'SharedArrayBuffer' is not defined"
         Code:
-        remark: 误报，chakra，hermes中没有SharedArrayBuffer()方法，所以报错。
+        remark: False positive, chakra, hermes has no SharedArrayBuffer() method, so an error is reported.
         remark-id: '1.2'
 
 
@@ -39,7 +39,7 @@ returncode_type:
             info: 'object global'
         Stderr:
         Code:
-        remark: '误报，对于同一个api的命名不同'
+        remark: 'False positives, different names for the same api'
         remark-id: '2.1'
 
 
@@ -48,7 +48,7 @@ returncode_type:
           - engine: 8
             info: 'warning: Direct call to eval\(\), but lexical scope is not supported.'
         Code:
-        remark: '误报，hermes eval()传入字符串报错'
+        remark: 'False positives, different names for the same api'
         remark-id: 2.2
 
       - Stdout:
@@ -58,7 +58,7 @@ returncode_type:
             info: '\.'
         Stderr:
         Code:
-        remark: 'chakra小数计算不一致。'
+        remark: 'chakra does not calculate decimals consistently. '
         remark-id: '2.3'
 
       - Stdout:
@@ -66,7 +66,7 @@ returncode_type:
             info: '\/\* ecmascript|\[native code\]'
         Stderr:
         Code:
-        remark: 'jerryscript,hermes不支持在方法内返回一个新定义的方法。'
+        remark: 'jerryscript,hermes does not support returning a newly defined method within a method. '
         remark-id: '2.4'
 
       - Stdout:
@@ -74,7 +74,7 @@ returncode_type:
             info: '\[bytecode\]|\[native code\]'
         Stderr:
         Code:
-        remark: 'jerryscript,hermes不支持在方法内返回一个新定义的方法。'
+        remark: 'jerryscript,hermes does not support returning a newly defined method within a method. '
         remark-id: '2.4'
 
       - Stdout:
@@ -83,7 +83,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'use asm'
-        remark: 'V8 使用use asm报错'
+        remark: 'V8 error when using asm '
         remark-id: '2.5'
 
       - Stdout:
@@ -95,7 +95,7 @@ returncode_type:
             info: '\[bytecode\]'
         Stderr:
         Code:
-        remark: 'graaljs在返回方法时语句没有分号,导致返回的内容多回车了一行'
+        remark: 'graaljs returns a method without a semicolon, resulting in an extra line returned. '
         remark-id: '2.6'
 
       - Stdout:
@@ -119,7 +119,7 @@ returncode_type:
             info: 'object Promise'
         Stderr:
         Code:
-        remark: 'hermes对于Promise对象不识别，打印出来是Object'
+        remark: 'hermes does not recognize Promise objects, printed as Object'
         remark-id: '2.7'
 
       - Stdout:
@@ -127,7 +127,7 @@ returncode_type:
           - engine: 3
             info: 'SyntaxError: Expected identifier, string or number'
         Code:
-        remark: '老版chakra中，浅拷贝对象会报错'
+        remark: 'In old chakra, shallow copies of objects get an error'
         remark-id: '2.8'
 
 
@@ -141,7 +141,7 @@ returncode_type:
             info: 'toString'
         Stderr:
         Code:
-        remark: '各个引擎对于函数属性的支持的不完全一致'
+        remark: 'Inconsistent support for function attributes across engines'
         remark-id: '2.9'
 
       - Stdout:
@@ -149,7 +149,7 @@ returncode_type:
             info: 'toSource'
         Stderr:
         Code:
-        remark: '各个引擎对于函数属性的支持的不完全一致'
+        remark: 'Inconsistent support for function attributes across engines'
         remark-id: '2.9'
 
       - Stdout:
@@ -161,7 +161,7 @@ returncode_type:
             info: 'toString'
         Stderr:
         Code:
-        remark: '各个引擎对于函数属性的支持的不完全一致'
+        remark: 'Inconsistent support for function attributes across engines'
         remark-id: '2.9'
 
       - Stdout:
@@ -173,7 +173,7 @@ returncode_type:
             info: 'toString'
         Stderr:
         Code:
-        remark: '各个引擎对于函数属性的支持的不完全一致'
+        remark: 'Inconsistent support for function attributes across engines'
         remark-id: '2.9'
 
 
@@ -186,7 +186,7 @@ returncode_type:
             info: 'toString'
         Stderr:
         Code:
-        remark: '各个引擎对于函数属性的支持的不完全一致'
+        remark: 'Inconsistent support for function attributes across engines'
         remark-id: '2.9'
 
       - Stdout:
@@ -194,7 +194,7 @@ returncode_type:
             info: '\.'
         Stderr:
         Code:
-        remark: 'jerryscript,小数最后几位不精确'
+        remark: 'jerryscript, the last few decimal places are inaccurate '
         remark-id: '2.10'
 
       - Stdout:
@@ -203,7 +203,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'arguments\[\w+\]'
-        remark: 'bug,hermes arguments[]和 形参不是一个'
+        remark: 'bug,hermes arguments[] and parameter are not the same '
         remark-id: '2.11'
 
       - Stdout:
@@ -213,7 +213,7 @@ returncode_type:
         Code:
           - content: 'delete'
           - content: 'for'
-        remark: 'bug,spiderMonkey错误，原因未知'
+        remark: 'bug,spiderMonkey error, cause unknown '
         remark-id: '2.12'
 
       - Stdout:
@@ -238,7 +238,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'Math\.random()'
-        remark: '误报，随机数引擎的'
+        remark: 'False positives, random number engine'
         remark-id: '2.13'
 
 
@@ -253,7 +253,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'new Date\(\)'
-        remark: 'chakra的时间计算new Date不一样,'
+        remark: 'chakras time calculation new Date is different,'
         remark-id: '2.14'
 
       - Stdout:
@@ -267,7 +267,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'Date\.now\(\)'
-        remark: 'chakra的时间计算Date.now()不一样'
+        remark: 'chakras time calculation Date.now() is different '
         remark-id: '2.14'
 
 
@@ -279,7 +279,7 @@ returncode_type:
         Stderr:
         Code:
           - content: '\[\.\.\.'
-        remark: 'jerryscript,hermes不一致，未知原因'
+        remark: 'jerryscript,hermes inconsistent, unknown cause '
         remark-id: '2.15'
 
       - Stdout:
@@ -287,7 +287,7 @@ returncode_type:
           - engine: 2
             info: 'setTimeout is not defined'
         Code:
-        remark: 'spiderMonkey 没有setTimeout方法'
+        remark: 'spiderMonkey does not have a setTimeout method.'
         remark-id: '2.16'
 
       - Stdout:
@@ -296,7 +296,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'String\.fromCharCode\(.*\)'
-        remark: '静态 String.fromCharCode() 方法返回由指定的 UTF-16 代码单元序列创建的字符串,graaljs出错'
+        remark: 'Static string.fromcharcode () method returns the String created by the specified UTF-16 code unit sequence,graaljs error'
         remark-id: '2.17'
 
       - Stdout:
@@ -305,7 +305,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'ud800'
-        remark: '编码问题,graaljs出错'
+        remark: 'Coding problem,graaljs error'
         remark-id: '2.17'
 
       - Stdout:
@@ -314,7 +314,7 @@ returncode_type:
         Stderr:
         Code:
           - content: '\.toString\(\d+\)'
-        remark: 'number.toString(radix),指定要用于数字到字符串的转换的基数(从2到36)。如果未指定 radix 参数，则默认值为 10;,quickjs不支持对小数的转换'
+        remark: 'number.toString(radix), which specifies the radix (from 2 to 36) to be used for number-to-string conversion. If the radix parameter is not specified, the default value is 10; quickjs does not support conversion to decimals.'
         remark-id: '2.18'
 
       - Stdout:
@@ -326,7 +326,7 @@ returncode_type:
             info: '\[bytecode\]|\[native code\]'
         Stderr:
         Code:
-        remark: 'jsc输出语句function后面多一个空格'
+        remark: 'jsc output function followed by an extra space '
         remark-id: '2.19'
 
       - Stdout:
@@ -334,7 +334,7 @@ returncode_type:
           - engine: 8
             info: 'warning: the property \".+\" was set multiple times in the object definition'
         Code:
-        remark: 'hermes字典重复key警告'
+        remark: 'hermes Dictionary repeat key warning '
         remark-id: '2.20'
 
       - Stdout:
@@ -343,7 +343,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'new ArrayBuffer\(\d+\)'
-        remark: '创建arraybuffer过大时，graaljs创建失败'
+        remark: 'graaljs creation failed when arraybuffer creation was too large'
         remark-id: '2.21'
 
       - Stdout:
@@ -352,7 +352,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'let'
-        remark: 'hermes对let支持不完整，需要人工进一步确认'
+        remark: 'hermes support for let is incomplete and requires further manual validation '
         remark-id: '2.22'
 
       - Stdout:
@@ -377,7 +377,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'new Promise'
-        remark: '不支持Promise函数'
+        remark: 'Promise function not supported'
         remark-id: '2.23'
 
       - Stdout:
@@ -386,7 +386,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'Number\.parseInt'
-        remark: 'bug,graaljs的Number.parseInt方法有问题'
+        remark: 'bug,graaljs has a problem with the Number.parseInt method '
         remark-id: '2.24'
 
       - Stdout:
@@ -398,7 +398,7 @@ returncode_type:
         Code:
           - content: 'new Date\(\s\)'
           - content: 'getFullYear\(\)|getTimezoneOffset\(\)'
-        remark: 'quickjs,hermes当构造Date时传入2013/12/03时，getFullYear不能返回结果'
+        remark: 'quickjs,hermes getFullYear does not return results when passing 2013/12/03 while constructing Date '
         remark-id: '2.25'
 
       - Stdout:
@@ -407,7 +407,7 @@ returncode_type:
         Stderr:
         Code:
           - content: '\.write'
-        remark: 'quickjs,hermes当构造Date时传入2013/12/03时，getFullYear不能返回结果'
+        remark: 'quickjs,hermes  getFullYear does not return results when passing 2013/12/03 while constructing Date '
         remark-id: '2.26'
 
       - Stdout:
@@ -416,7 +416,7 @@ returncode_type:
         Stderr:
         Code:
           - content: '.+sort\(function\(.+\) *'
-        remark: '当排序时使用没有的属性时，其他引擎不会改变数组顺序，而jerry会改成倒序。'
+        remark: 'Other engines dont change array order when sorting with an attribute that doesnt exist, but jerry does reverse order. '
         remark-id: '2.27'
 
       - Stdout:
@@ -425,7 +425,7 @@ returncode_type:
         Stderr:
         Code:
           - content: '\.localeCompare\(.?\)'
-        remark: 'quickjs的localeCompare属性返回值是正数负数和0就可以，不一定要1，-1，0'
+        remark: 'quickjs localeCompare property returns positive and negative numbers and 0, not necessarily 1, -1, 0'.
         remark-id: '2.28'
 
       - Stdout:
@@ -434,7 +434,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'HermesInternal'
-        remark: 'HermesInternal是hermes自己定义的内容'
+        remark: 'HermesInternal is defined by hermes itself '
         remark-id: '2.29'
 
   - returncode: 1(0)2(0)3(0)4(0)5(0)6(0)7(0)8(2)9(0)
@@ -445,7 +445,7 @@ returncode_type:
           - engine: 8
             info: 'error: invalid statement encountered'
         Code:
-        remark: 误报，hermes 关键词不是class
+        remark: False positive, hermes keyword is not class
         remark-id: '3.1'
 
       - Stdout:
@@ -453,7 +453,7 @@ returncode_type:
           - engine: 8
             info: 'error: async functions are unsupported'
         Code:
-        remark: 误报，hermes没有async相关方法
+        remark: False positive, hermes has no async related method
         remark-id: '3.2'
 
       - Stdout:
@@ -461,7 +461,7 @@ returncode_type:
           - engine: 8
             info: 'Destructuring in catch parameters is currently unsupported'
         Code:
-        remark: 误报，hermes暂不支持在catch中定义内容
+        remark: False positives. hermes does not yet support defining content in catch
         remark-id: '3.3'
 
       - Stdout:
@@ -470,7 +470,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'let'
-        remark: jerryscript对于let定义域有问题
+        remark: jerryscript has a problem with the let domain
         remark-id: '3.4'
 
       - Stdout:
@@ -478,7 +478,7 @@ returncode_type:
             info: '\/\* ecmascript|\[native code\]'
         Stderr:
         Code:
-        remark: 'jerryscript,hermes不支持在方法内返回一个新定义的方法。'
+        remark: 'jerryscript,hermes does not support returning a newly defined method within a method.'
         remark-id: '2.4'
 
   - returncode: 1(0)2(0)3(0)4(3)5(0)6(1)7(0)8(1)9(0)
@@ -493,7 +493,7 @@ returncode_type:
           - engine: 8
             info: "Uncaught ReferenceError: Property 'console' doesn't exist"
         Code:
-        remark: '误报，部分引擎不支持console.log()'
+        remark: 'False positives, some engines do not support console.log()'
         remark-id: '4.1'
 
       - Stdout:
@@ -503,7 +503,7 @@ returncode_type:
             info: '\.'
         Stderr:
         Code:
-        remark: 'chakra小数计算不一致。'
+        remark: 'chakra does not calculate decimals consistently.'
         remark-id: '4.2'
 
   - returncode: 1(0)2(0)3(0)4(0)5(0)6(0)7(7)8(0)9(0)
@@ -514,7 +514,7 @@ returncode_type:
           - engine: 7
             info: 'Packages\.org\.mozilla\.javascript\.Context\.getCurrentContext is not a function'
         Code:
-        remark: '误报，graaljs导入了一个不存在的包'
+        remark: 'False positive: graaljs imports a package that does not exist'
         remark-id: '5.1'
 
   - returncode: 1(1)2(3)3(0)4(0)5(0)6(0)7(0)8(0)9(0)
@@ -541,7 +541,7 @@ returncode_type:
             info: 'object Promise'
         Stderr:
         Code:
-        remark: hermes对于Promise对象不识别，打印出来是Object
+        remark: hermes does not recognize Promise objects; it prints out as Object
         remark-id: '6.1'
 
       - Stdout:
@@ -551,7 +551,7 @@ returncode_type:
           - engine: 2
             info: 'Unhandled rejection'
         Code:
-        remark: v8,spiderMonkey不支持Promise函数
+        remark: v8,spiderMonkey does not support the Promise function
         remark-id: '6.2'
 
   - returncode: 1(0)2(3)3(0)4(3)5(1)6(1)7(7)8(1)9(0)
@@ -578,7 +578,7 @@ returncode_type:
           - engine: 9
             info: "ReferenceError: 'write' is not defined"
         Code:
-        remark: 误报，只有v8支持write函数，其他引擎报错
+        remark: False positives. Only v8 supports write. Other engines report errors
         remark-id: '7.1'
 
   - returncode: 1(0)2(0)3(0)4(0)5(0)6(-9)7(0)8(-9)9(0)
@@ -591,7 +591,7 @@ returncode_type:
             info: ''
         Stderr:
         Code:
-        remark: jerryscript,hermes计算大量数据时超时
+        remark: jerryscript,hermes timed out when calculating large amounts of data
         remark-id: '8.1'
 
   - returncode: 1(0)2(3)3(0)4(3)5(1)6(1)7(0)8(1)9(0)
@@ -616,7 +616,7 @@ returncode_type:
           - engine: 9
             info: "TypeError: Object doesn't support property or method 'info'"
         Code:
-        remark: '误报，只有v8,graaljs支持了console.info'
+        remark: 'False positives, only v8,graaljs supports console.info'
         remark-id: '9.1'
 
   - returncode: 1(0)2(0)3(0)4(0)5(-9)6(0)7(0)8(0)9(0)
@@ -627,7 +627,7 @@ returncode_type:
             info: ''
         Stderr:
         Code:
-        remark: 'quickjs超时'
+        remark: 'quickjs timeout'
         remark-id: '10.1'
 
   - returncode: 1(0)2(0)3(0)4(0)5(0)6(-9)7(0)8(0)9(0)
@@ -638,7 +638,7 @@ returncode_type:
             info: ''
         Stderr:
         Code:
-        remark: 'jerry超时'
+        remark: 'jerry timeout'
         remark-id: '11.1'
 
   - returncode: 1(0)2(3)3(0)4(3)5(1)6(0)7(7)8(1)9(0)
@@ -651,7 +651,7 @@ returncode_type:
             info: 'Symbol\(\)'
         Stderr:
         Code:
-        remark: '对Symbol()的支持不完全'
+        remark: 'Support for Symbol() is incomplete'
         remark-id: '12.1'
 
   - returncode: 2(0)3(0)4(0)7(0)8(0)9(0)
@@ -663,7 +663,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'String\.fromCharCode'
-        remark: '静态 String.fromCharCode() 方法返回由指定的 UTF-16 代码单元序列创建的字符串,graaljs出错'
+        remark: 'The static string.fromcharcode () method returns the String created by the specified UTF-16 code unit sequence. graaljs has an error'
         remark-id: '13.1'
 
       - Stdout:
@@ -672,7 +672,7 @@ returncode_type:
         Stderr:
         Code:
           - content: 'ud800'
-        remark: '编码问题,graaljs出错'
+        remark: 'Coding problem,graaljs error'
         remark-id: '13.2'
 
       - Stdout:
@@ -680,7 +680,7 @@ returncode_type:
             info: '\[bytecode\]'
         Stderr:
         Code:
-        remark: 'jerryscript,hermes不支持在方法内返回一个新定义的方法。'
+        remark: 'jerryscript,hermes does not support returning a newly defined method within a method.'
         remark-id: '2.4'
 
   - returncode: 1(0)2(3)3(0)4(0)5(0)6(0)7(0)8(0)9(0)
@@ -705,7 +705,7 @@ returncode_type:
             info: 'object Promise'
         Stderr:
         Code:
-        remark: 'hermes对于Promise对象不识别，打印出来是Object'
+        remark: 'hermes does not recognize Promise objects; it prints out as Object'
         remark-id: '14.1'
 
       - Stdout:
@@ -713,7 +713,7 @@ returncode_type:
           - engine: 2
             info: 'setTimeout is not defined'
         Code:
-        remark: 'spiderMonkey不支持setTimeOut方法'
+        remark: 'spiderMonkey does not support the setTimeOut method'
         remark-id: '14.2'
 
 
@@ -729,7 +729,7 @@ returncode_type:
           - engine: 6
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：函数循环相互调用/自调用'
+        remark: 'crash false positives: function loops call each other/call themselves'
         remark-id: '15.1'
 
   - returncode: 1(1)2(3)3(0)4(3)5(1)6(-11)7(7)8(-9)9(0)
@@ -754,7 +754,7 @@ returncode_type:
           - engine: 9
             info: 'Function expected'
         Code:
-        remark: 'crash误报：函数循环自调用导致的异常表现'
+        remark: 'crash false positives: Abnormal performance caused by a function loop call'
         remark-id: '16.1'
 
   - returncode: 1(0)2(0)3(-11)4(0)5(0)6(0)7(0)8(2)9(0)
@@ -780,7 +780,7 @@ returncode_type:
             info: 'StoreNewOwnPropertyInst::Property must be a string literal in function eval'
         Code:
           - content: 'eval'
-        remark: 'hermes - eval函数不支持使用非字面量字符串作为属性名'
+        remark: 'The hermes-eval function does not support non-literal strings as property names'
         remark-id: '18.1'
 
   - returncode: 1(1)2(3)3(0)4(3)5(1)6(1)7(7)8(-6)9(0)
@@ -792,7 +792,7 @@ returncode_type:
             info: 'timeout: the monitored command dumped core'
         Code:
           - content: 'clearTimeout'
-        remark: 'hermes - clearTimeout函数不支持非unit32'
+        remark: 'The hermes-clearTimeout function does not support non-unit32'
         remark-id: '19.1'
 
   - returncode: 1(133)2(-9)3(-6)4(-9)5(-9)6(-9)7(-9)8(-9)9(-6)
@@ -807,7 +807,7 @@ returncode_type:
           - engine: 9
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：数组元素过多，v8报错'
+        remark: 'crash error: v8 reported an error due to excessive array elements'
         remark-id: '20.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(1)6(10)7(7)8(1)9(0)
@@ -820,7 +820,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '21.1'
 
   - returncode: 1(-9)2(-9)3(-11)4(-9)5(-9)6(-9)7(-9)8(-9)9(-9)
@@ -831,7 +831,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：死循环'
+        remark: 'crash false positives: an endless loop'
         remark-id: '22.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(1)6(1)7(7)8(-6)9(-6)
@@ -848,7 +848,7 @@ returncode_type:
           - engine: 9
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：数组过长'
+        remark: 'crash false positive: The array is too long'
         remark-id: '23.1'
 
   - returncode: 1(0)2(0)3(-6)4(0)5(0)6(-9)7(0)8(-9)9(-9)
@@ -865,7 +865,7 @@ returncode_type:
           - engine: 9
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：循环过多'
+        remark: 'crash false positives: too many loops'
         remark-id: '24.1'
 
   - returncode: 1(1)2(3)3(0)4(3)5(1)6(1)7(7)8(-6)9(0)
@@ -877,7 +877,7 @@ returncode_type:
             info: 'eval'
         Code:
           - content: 'eval'
-        remark: 'hermes - eval函数不支持使用非字面量字符串作为属性名-另一种表现'
+        remark: 'The hermes-eval function does not support non-literal strings as property names - another manifestation'
         remark-id: '25.1'
 
   - returncode: 1(1)2(3)3(0)4(3)5(1)6(-11)7(-9)8(-9)9(0)
@@ -890,7 +890,7 @@ returncode_type:
           - engine: 6
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：函数循环自调用导致的异常表现'
+        remark: 'crash false positives: Abnormal performance caused by a function loop call'
         remark-id: '26.1'
 
   - returncode: 1(1)2(3)3(0)4(0)5(0)6(-11)7(0)8(0)9(0)
@@ -905,7 +905,7 @@ returncode_type:
           - engine: 6
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：函数循环相互调用/自调用-另一表现'
+        remark: 'crash false positives: Function loops calling each other/self-calling - another manifestation'
         remark-id: '27.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(1)6(1)7(7)8(-9)9(-6)
@@ -920,7 +920,7 @@ returncode_type:
           - engine: 9
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：循环过大导致函数参数过多'
+        remark: 'crash false positives: Excessive loop results in too many function parameters'
         remark-id: '28.1'
 
   - returncode: 1(-9)2(-9)3(-6)4(-9)5(-9)6(-9)7(-9)8(-9)9(-9)
@@ -931,7 +931,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：循环过大导致超时'
+        remark: 'crash false positives: The loop timed out because it was too large'
         remark-id: '29.1'
 
   - returncode: 1(133)2(-9)3(-6)4(-9)5(-9)6(-9)7(-9)8(-9)9(-9)
@@ -944,7 +944,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：数组元素过多，v8报错'
+        remark: 'crash error: v8 reported an error due to excessive array elements'
         remark-id: '30.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(1)6(-11)7(7)8(1)9(0)
@@ -959,7 +959,7 @@ returncode_type:
           - engine: 6
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '31.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(-9)6(-9)7(7)8(-9)9(-9)
@@ -972,7 +972,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '32.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(1)6(-9)7(7)8(1)9(0)
@@ -987,7 +987,7 @@ returncode_type:
           - engine: 6
             info: ''
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '33.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(1)6(10)7(-9)8(1)9(0)
@@ -1002,7 +1002,7 @@ returncode_type:
           - engine: 6
             info: ''
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '34.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(1)6(-9)7(-9)8(1)9(0)
@@ -1019,7 +1019,7 @@ returncode_type:
           - engine: 7
             info: ''
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '35.1'
 
   - returncode: 1(1)2(3)3(-6)4(-9)5(1)6(-9)7(7)8(1)9(0)
@@ -1034,7 +1034,7 @@ returncode_type:
           - engine: 6
             info: ''
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '36.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(-9)6(10)7(7)8(1)9(0)
@@ -1047,7 +1047,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '37.1'
 
   - returncode: 1(0)2(0)3(-11)4(0)5(0)6(0)7(0)8(0)9(0)
@@ -1059,7 +1059,7 @@ returncode_type:
             info: 'timeout: the monitored command dumped core'
         Code:
           - content: '!p'
-        remark: 'for循环优化'
+        remark: 'for loop optimization'
         remark-id: '38.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(-9)6(-9)7(7)8(1)9(0)
@@ -1072,7 +1072,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '39.1'
 
   - returncode: 1(-9)2(-9)3(-6)4(-9)5(-9)6(-9)7(-9)8(-9)9(-6)
@@ -1085,7 +1085,7 @@ returncode_type:
           - engine: 9
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：循环过大导致超时'
+        remark: 'crash false positives: The loop timed out because it was too large'
         remark-id: '40.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(-9)6(-9)7(7)8(-9)9(0)
@@ -1098,7 +1098,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '41.1'
 
   - returncode: 1(133)2(-9)3(-6)4(-9)5(-9)6(-9)7(7)8(-9)9(-9)
@@ -1113,7 +1113,7 @@ returncode_type:
           - engine: 7
             info: 'Could not allocate an unaligned heap chunk'
         Code:
-        remark: 'crash误报：数组元素过多，v8报错'
+        remark: 'crash error: v8 reported an error due to excessive array elements'
         remark-id: '42.1'
 
   - returncode: 1(133)2(-9)3(-6)4(-9)5(-9)6(-9)7(7)8(-9)9(-6)
@@ -1130,7 +1130,7 @@ returncode_type:
           - engine: 9
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：数组元素过多，v8报错'
+        remark: 'crash error: v8 reported an error due to excessive array elements'
         remark-id: '43.1'
 
   - returncode: 1(133)2(-9)3(-9)4(-9)5(-9)6(-9)7(-9)8(-9)9(-6)
@@ -1143,7 +1143,7 @@ returncode_type:
           - engine: 9
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：数组元素过多，v8报错'
+        remark: 'crash error: v8 reported an error due to excessive array elements'
         remark-id: '44.1'
 
   - returncode: 1(0)2(0)3(-11)4(0)5(0)6(-11)7(-9)8(2)9(0)
@@ -1174,7 +1174,7 @@ returncode_type:
           - engine: 5
             info: 'InternalError: out of memory'
         Code:
-        remark: 'crash误报：数组元素过多，v8报错'
+        remark: 'crash error: v8 reported an error due to excessive array elements'
         remark-id: '46.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(-9)6(-9)7(-9)8(-9)9(-9)
@@ -1187,7 +1187,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '47.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(-9)6(-9)7(-9)8(1)9(0)
@@ -1200,7 +1200,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '48.1'
 
   - returncode: 1(1)2(3)3(-6)4(3)5(-9)6(-9)7(-9)8(-9)9(0)
@@ -1213,7 +1213,7 @@ returncode_type:
           - engine: 3
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：字符串过长'
+        remark: 'crash false positives: The string is too long'
         remark-id: '49.1'
 
   - returncode: 1(133)2(-9)3(-6)4(-9)5(-9)6(-11)7(-9)8(-9)9(-6)
@@ -1230,7 +1230,7 @@ returncode_type:
           - engine: 9
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：数组元素过多，v8报错'
+        remark: 'crash error: v8 reported an error due to excessive array elements'
         remark-id: '50.1'
 
   - returncode: 1(133)2(3)3(-6)4(-9)5(-9)6(-9)7(7)8(-9)9(-6)
@@ -1247,7 +1247,7 @@ returncode_type:
           - engine: 9
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：数组元素过多，v8报错'
+        remark: 'crash error: v8 reported an error due to excessive array elements'
         remark-id: '51.1'
 
   - returncode: 1(-9)2(-9)3(-6)4(-9)5(-9)6(-11)7(-9)8(-9)9(-6)
@@ -1262,5 +1262,5 @@ returncode_type:
           - engine: 9
             info: 'timeout: the monitored command dumped core'
         Code:
-        remark: 'crash误报：循环过大导致超时'
+        remark: 'crash false positives: The loop timed out because it was too large'
         remark-id: '52.1'

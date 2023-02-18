@@ -40,14 +40,9 @@ class Testcase_Object(object):
             return otherTestcaseFromSameSourceTestcase
 
     def engine_run_testcase(self, timeout="30"):
-        # 1.记录自身覆盖率信息在Engine_coverage
-        # 2.查看有无父用例，有的话整合自己和父用例，记录在Engine_coverage_integration_source
-        # 3.查看有无子用例，有的话整合自己和所有的子用例，记录下Engine_coverage_integration_all
         harness = Harness()
-        # print(f'正在使用{len(harness.get_engines())}个引擎进行测试')
         harness_result = harness.run_testcase(self.SourceFun_id, self.Id, self.Testcase_context,
                                               timeout)
-        # 增加一次fuzzing次数
 
         self.Fuzzing_times += 1
         return harness_result
@@ -66,18 +61,8 @@ class Testcase_Object(object):
         self.Mutation_times += mutation_times
 
     def jshint_check_testcases(self, all_testcases):
-        """
-        使用jshint对生成的用例进行检查\n
-        过滤掉语法错误的用例\n
-        保留正确的，再用于替换代码块变异\n
-        去掉用例中最后一行的print
-        :param all_functions: 所有方法的list
-        :return:
-        """
-        # print("正在对生成的用例使用jshint进行语法检查")
         all_testcases_pass = set()
         for testcase in all_testcases:
-            # 通过with语句创建临时文件，with会自动关闭临时文件
             testcase_no_print = testcase[:testcase.rfind('\n')]
             # print(testcase_no_print)
 
@@ -93,16 +78,11 @@ class Testcase_Object(object):
         return all_testcases_pass
 
     def cmd_jshint(self, temp_file_path):
-        """
-        使用jshint对生成的function进行检查\n
-        :param temp_file_path: 临时文件位置
-        :return: 语法正确返回true,语法错误返回false
-        """
         # cmd = ['timeout', '60s', 'jshint', temp_file_path]
         cmd = ['timeout', '60s', 'jshint', '-c', '/root/Comfuzz/COMFUZZ_js/data/.jshintrc', temp_file_path]
-        if sys.platform.startswith('win'):  # 假如是windows
+        if sys.platform.startswith('win'):
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        else:  # 假如是linux
+        else:
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = p.communicate()
         # if stdout:
@@ -113,16 +93,12 @@ class Testcase_Object(object):
 
         if stdout.__len__() > 0:
             jshint_flag = False
-        else:  # 通过了检查，此时 test_file_name中就是美化后的代码
+        else:
             jshint_flag = True
             # print(f"right!")
         return jshint_flag
 
     def mutation_method4(self, model):
-        """
-        操作符替换，变异方法4
-        :return:
-        """
         with tempfile.NamedTemporaryFile(delete=True) as tmpfile:
             temp_file_path = tmpfile.name
             # print(temp_file_name)  # /tmp/tmp73zl8gmn
@@ -130,7 +106,6 @@ class Testcase_Object(object):
             tmpfile.seek(0)
             # tmpTxt = tmpfile.read().decode()
             # print(tmpTxt)
-            # 返回 随机代码块删除， While与If代码块互换， 条件代码块包裹， 操作符替换， 语义相近的API替换， 返回值相同的API替换， 原型链污染， 属性篡改， 热点函数优化
             random_block_remove, while_if_swap, condition_code_add, replaceOperator, replace_similar_API, replace_return_API, proto_pollution, property_modification, hotspot_optimization = self.design_Testcase_Mutation(
                 temp_file_path, model)
             # print(len(result))
@@ -150,7 +125,6 @@ class Testcase_Object(object):
 
         table_testcase = Table_Testcase()
 
-        # 把通过语法检查的用例存入数据库
         random_block_remove_pass_list_to_write = self.make_all_mutation_testcases_passListToWrite(
             random_block_remove_pass,
             self.SourceFun_id,
@@ -259,7 +233,6 @@ class Testcase_Object(object):
                         property_modification.append(j[:j.rfind('\n')])
                     elif split_j[-1] == "hotspot_optimization" and (j not in hotspot_optimization):
                         hotspot_optimization.append(j[:j.rfind('\n')])
-        # 返回 随机代码块删除， While与If代码块互换， 条件代码块包裹， 操作符替换， 语义相近的API替换， 返回值相同的API替换， 原型链污染， 属性篡改， 热点函数优化
         return random_block_remove, while_if_swap, condition_code_add, replaceOperator, replace_similar_API, replace_return_API, proto_pollution, property_modification, hotspot_optimization
 
     def make_all_mutation_testcases_passListToWrite(self, all_mutation_testcases_pass, SourceFun_id, SourceTestcase_id,
@@ -268,7 +241,6 @@ class Testcase_Object(object):
                                                     Engine_coverage_integration_source, Engine_coverage_integration_all,
                                                     Probability,
                                                     Remark) -> list:
-        # 将生成的代码写入数据库
 
         lis = []
 
@@ -281,21 +253,12 @@ class Testcase_Object(object):
         return lis
 
     def get_function_content(self):
-        """
-        1.从testcase表中获取function id，
-        2.然后根据id去function表中获取内容
-        :return:
-        """
         table_function = Table_Function()
         function = table_function.selectOneFromTableFunction(self.SourceFun_id)
         function_object = Function_Object(function)
         return function_object
 
     def mutation_method1_2(self, FunctionsSet, FunctionsReplaceBlockSet):
-        """
-        gpt直接续写
-        :return:
-        """
         # regex = r"function(.+\n)+}"
         global parameter
         regex = r"(?<=};\n)(.+\n)+print\(NISLCallingResult\);"
@@ -309,13 +272,11 @@ class Testcase_Object(object):
 
         for function in FunctionsSet:
             result = 'var NISLFuzzingFunc = ' + function + parameter
-            # print('直接替换')
             # print(result)
             all_functions_generated_testcases.add(result)
 
         for function in FunctionsReplaceBlockSet:
             result = 'var NISLFuzzingFunc = ' + function + parameter
-            # print('续写替换')
 
             # print(result)
 
@@ -333,7 +294,6 @@ class Testcase_Object(object):
             all_functions_replaced_generated_testcases)
         table_testcase = Table_Testcase()
 
-        # 把通过语法检查的用例存入数据库
         # all_functions_generated_testcases_pass_list_to_write = self.make_all_mutation_testcases_passListToWrite(
         #     all_functions_generated_testcases_pass,
         #     self.SourceFun_id,
@@ -343,7 +303,6 @@ class Testcase_Object(object):
         #     self.SourceFun_id,
         #     self.Id, 0, 2, 0, 0, None, None, None, 0, None)
 
-        # 直接存入数据库
         all_functions_generated_testcases_pass_list_to_write = self.make_all_mutation_testcases_passListToWrite(
             all_functions_generated_testcases,
             self.SourceFun_id,
@@ -372,13 +331,6 @@ class Testcase_Object(object):
                                                                     self.SourceTestcase_id)
 
     def getCov(self):
-        '''
-        # 1.记录自身覆盖率信息在Engine_coverage
-        # 2.查看有无父用例，有的话整合自己和父用例，记录在Engine_coverage_integration_source
-        # 3.如果存在父用例，并且父用例的Engine_coverage_integration_all没有内容时，整合自己父用例和所有的父用例下所有子用例，记录在Engine_coverage_integration_all
-        @return:
-        '''
-        # 1.记录自身覆盖率信息在Engine_coverage
         OwnCov = self.getOwnCov()
 
         SourceCov = ''
@@ -386,14 +338,9 @@ class Testcase_Object(object):
 
         # print(testcase_object.Engine_coverage_integration_all)
         if (self.SourceTestcase_id != 0):
-            # 2.查看有无父用例，有的话整合自己和父用例，记录在Engine_coverage_integration_source
             SourceCov = self.getSourceCov()
 
-            # 如果存在父用例，并且父用例的Engine_coverage_integration_all没有内容时，整合自己父用例和所有的父用例下所有子用例，记录在Engine_coverage_integration_all
-            # 所有具有共同父用例的子用例
-            # testcase_list = table_Testcase.selectSourceTestcaseIdFromTableTestcase(self.SourceTestcase_id)
 
-            # 检查所有的子用例是否都已经被测试过，如果被测试过，可以合并父用例的所有子用例的覆盖率
             # all_flag = 0
             #
             # for item in testcase_list:
@@ -401,7 +348,6 @@ class Testcase_Object(object):
             #     if item[8] is not None and len(item[8]) != 0:
             #         all_flag += 1
             # # print(all_flag,'-',len(testcase_list))
-            # # 统计覆盖率，结束之后删除相应的文件
             # if all_flag >= len(testcase_list) - 1:
             #
             #     # print(testcase_list)
@@ -420,8 +366,6 @@ class Testcase_Object(object):
             #     otherTestcaseFromSameSourceTestcase.append(item[0])
             AllCov = self.getAllCov(self.testcase_list)
 
-            # else:
-            #     print("有子用例没被测试")
 
         # print(AllCov)
 
@@ -484,33 +428,19 @@ class Testcase_Object(object):
         stdout, stderr = pro.communicate()
 
     def getOwnCov(self):
-        """
-        获取自身的覆盖率信息，记录在Engine_coverage
-        @return:
-        """
         return self.processCov(self.Id)
 
     def getSourceCov(self):
-        """
-        如果存在父用例，获取自身和父用例的覆盖率，记录在记录在Engine_coverage_integration_source
-        @return:
-        """
         return self.processCov(self.Id, self.SourceTestcase_id)
 
     def getAllCov(self, otherTestcaseFromSameSourceTestcase):
-        """
-        如果存在父用例，并且父用例的Engine_coverage_integration_all没有内容时，整合自己父用例和所有的父用例下所有子用例，记录在Engine_coverage_integration_all
-        @return:
-        """
         coverage_stdout_finally = None
         try:
             coverage_stdout_finally = self.processAllCov(*otherTestcaseFromSameSourceTestcase)
-            # print("返回所有的覆盖率")
             self.removeCov(*otherTestcaseFromSameSourceTestcase)
 
         except:
             pass
-            # print("没有测试完所有的覆盖率")
 
         return coverage_stdout_finally
 

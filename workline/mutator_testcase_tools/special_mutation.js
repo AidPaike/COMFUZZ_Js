@@ -1,15 +1,15 @@
-// 导入 esprima 库
+
 const esprima = require('esprima');
 const estraverse = require('estraverse');
 const escodegen = require('escodegen');
-//引入commander
+
 const commander = require("commander");
 
 const fs = require("fs");
 
 let filename = '';
 
-//增加命令行选项（-f 输入文件）
+
 commander
     .option('-f, --filename <type>', 'Set filename to execute')
 
@@ -20,9 +20,9 @@ const options = commander.opts();
 if (options.filename)
     filename = options.filename;
 /**
- * 从文件中读取原始语料并通过回调函数开始处理
- * @param {type} filename 文件名
- * @param {type} callback 执行变量名回填的回调函数
+ *
+ * @param {type} filename
+ * @param {type} callback
  * @returns {undefined}
  */
 var readFromFile = function (filename, callback) {
@@ -39,10 +39,10 @@ var readFromFile = function (filename, callback) {
 
 
 
-// 专用变异规则实现
+//
 
-// 1 语义相近的API替换
-// 正则节点生成
+// 1
+//
 var random_regex_node = function(){
     let regex_code = "regexp[Symbol.method](string);";
     let random_index = Math.floor(Math.random()*51);
@@ -65,7 +65,7 @@ var random_regex_node = function(){
     return regex_node;
 }
 
-//String节点生成
+//
 var random_str_node = function(){
     let str_code = "string.method(regexp);";
     let random_index = Math.floor(Math.random()*51);
@@ -86,7 +86,7 @@ var random_str_node = function(){
     return str_node;
 }
 
-// 相同的regex/string方法互换
+//
 var replace_similar_API = function(source) {
     let ast = esprima.parse(source);
     let source_copy = escodegen.generate(ast);
@@ -94,7 +94,6 @@ var replace_similar_API = function(source) {
     estraverse.replace(ast, {
         enter: function (node) {
             if(node.type == "CallExpression" && node.callee.type === "MemberExpression" && (node.callee.property.type === 'Identifier'|| node.callee.property.property.type === 'Identifier')){
-                //判断是否为str对象的可以对应替换regex对象的方法
                 if(similar_API_name.includes(node.callee.property.name)){
                     let add_reg_node = random_regex_node();
                     console.log(add_reg_node);
@@ -103,7 +102,6 @@ var replace_similar_API = function(source) {
                     add_reg_node.arguments = node.arguments;
                     return add_reg_node;
                 }
-                //判断是否为regex对象的可以对应替换str对象的方法
                 if(node.callee.property.property != undefined){
                     if(similar_API_name.includes(node.callee.property.property.name)){
                         let add_str_node = random_str_node();
@@ -127,9 +125,6 @@ var replace_similar_API = function(source) {
 
 
 
-// 2 返回值相同的API替换
-// TODO:总结更多节点类型以及随机生成更加复杂多样的字符串（包含转义字符）以及数字等
-// String返回值节点生成
 var random_return_str_node = function(){
     let return_string_code = "var str1 = 'example'; var str2 = new String(9853); var str3 = [1,6,9,0].toString();";
     let random_index = Math.floor(Math.random()*51);
@@ -149,7 +144,6 @@ var random_return_str_node = function(){
     return return_string_node;
 }
 
-//Number返回值节点生成
 var random_return_num_node = function(){
     let return_number_code = "var num1 = 486514574564; var num2 = new Number(985746854653); var num3 = [1,6,9,0].push(678);"
     let random_index = Math.floor(Math.random()*51);
@@ -215,8 +209,7 @@ var replace_return_API = function(source) {
 
 
 
-// 3 原型链污染
-// 原型链修改节点
+
 var random_proto_node = function(){
     var proto_code = "a.__proto__.foo = 'test';";
     var random_index = Math.floor(Math.random()*51);
@@ -256,7 +249,6 @@ var proto_pollution = function(source) {
                     //parent.body[index + 1 + offset].expression.callee.object.name = node.declarations[0].id.name;
                     offset += 1;
                 }
-                //判断是否为new定义
                 if(node.declarations[0].init.type == "NewExpression" && node.declarations[0].init.callee.name == "Object"){
                     for(var index = 0; index < parent.body.length; index ++){
                         if (parent.body[index] == node)  break;
@@ -280,8 +272,6 @@ var proto_pollution = function(source) {
 
 
 
-// 4 属性篡改
-// 属性修改节点
 var modification_node_random = function(){
     var modification_code = "a.__defineGetter__(0, function(){ a.length = 1});" +
     "b.__defineGetter__(0, function(){ b.length = -1});" +
@@ -311,7 +301,7 @@ var modification_node_random = function(){
     random += 1;
     return add_node;
 }
-// 对数组进行属性添加
+
 var property_modification = function(source) {
     let return_array_name = ["copyWithin", "slice", "fill", "reverse", "concat", "split"];
     let ast = esprima.parse(source);
@@ -320,9 +310,9 @@ var property_modification = function(source) {
         enter: function (node, parent) {
             var offset = 0;
             if(node.type == "VariableDeclaration" && node.declarations[0].type == "VariableDeclarator"){
-                //判断是否为直接定义
+
                 if(node.declarations[0].init.type == "ArrayExpression"){
-                    //获取语句所在代码块的位置
+
                     for(var index = 0; index < parent.body.length; index ++){
                         if (parent.body[index] == node)  break;
                     }
@@ -333,7 +323,7 @@ var property_modification = function(source) {
                     //parent.body[index + 1 + offset].expression.callee.object.name = node.declarations[0].id.name;
                     offset += 1;
                 }
-                //判断是否为new定义
+
                 if(node.declarations[0].init.type == "NewExpression" && node.declarations[0].init.callee.name == "Array"){
                     for(var index = 0; index < parent.body.length; index ++){
                         if (parent.body[index] == node)  break;
@@ -345,7 +335,7 @@ var property_modification = function(source) {
                     //parent.body[index + 1 + offset].expression.callee.object.name = node.declarations[0].id.name;
                     offset += 1;
                 }
-                // 是否为API返回值
+
                 if(node.declarations[0].init.type == "CallExpression" && node.declarations[0].init.callee.property != undefined){
                     if(return_array_name.includes(node.declarations[0].init.callee.property.name)){
                         for(var index = 0; index < parent.body.length; index ++){
@@ -372,8 +362,7 @@ var property_modification = function(source) {
 
 
 
-// 5 热点函数优化
-// 热点函数优化节点
+
 var random_optimization_node = function(){
     var func_code = "for (var i = 0; i < 100000; i++) a();a();";
     var random_index = Math.floor(Math.random()*51);

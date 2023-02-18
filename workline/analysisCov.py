@@ -1,6 +1,6 @@
-# 1.初始种子覆盖率获取
-# 2.变异种子覆盖率获取
-# 3.两者覆盖率对比
+# 1. Initial seed coverage acquisition
+# 2. Variation seed coverage rate acquisition
+# 3. Comparison of coverage rates between the two
 import json
 import statistics
 
@@ -18,17 +18,11 @@ def findCovByTestcaseId(id):
 
     json_dict_total = json_dict['data'][0]['totals']
 
-    # 返回覆盖率的json信息
-    # print(f'用例{id}覆盖率为{json_dict_total}')
+
     return json_dict_total
 
 
 def compareMutateTestcaseCov(id):
-    """
-    通过testcaseid寻找由他变异出的新用例id
-    @param id:
-    @return: 一个列表
-    """
 
     covJson = findCovByTestcaseId(id)
     functions_percent = covJson['functions']['percent']
@@ -36,10 +30,10 @@ def compareMutateTestcaseCov(id):
     regions_percent = covJson['regions']['percent']
 
     mutate_list = table_testcase.selectSourceTestcaseIdFromTableTestcase(id)
-    print('*' * 20 + f'用例{id}变异生成{len(mutate_list)}个用例' + '*' * 20)
+    print('*' * 20 + f'Use case {id} mutates to generate {len(mutate_list)} use cases' + '*' * 20)
 
     print(
-        '变异之前方法覆盖率为{:.2f}%,行覆盖率为{:.2f}%，代码块覆盖率为{:.2f}%'.format(id, functions_percent, lines_percent, regions_percent))
+        'Before the mutation, method coverage is {:.2f}%, line coverage is {:.2f}%, and code block coverage is {:.2f}%'.format(id, functions_percent, lines_percent, regions_percent))
 
     functions_percent_lis = []
     lines_percent_lis = []
@@ -68,11 +62,11 @@ def compareMutateTestcaseCov(id):
     lines_percent_average = statistics.mean(lines_percent_lis)
     regions_percent_average = statistics.mean(regions_percent_lis)
     print(
-        '变异之后方法覆盖率最高为{:.2f}%,行覆盖率最高为{:.2f}%，代码块覆盖率最高为{:.2f}%'.format(id, functions_percent_max, lines_percent_max,
+        'Variation method after coverage up to{:.2f}%,line coverage up to{:.2f}%，the block of code coverage up to{:.2f}%'.format(id, functions_percent_max, lines_percent_max,
                                                                      regions_percent_max))
 
     print(
-        '变异之后方法覆盖率平均为{:.2f}%,行覆盖率平均为{:.2f}%，代码块覆盖率平均为{:.2f}%'.format(id, functions_percent_average,
+        'Variation method coverage after an average of{:.2f}%,the average line coverage for{:.2f}%，the average line coverage for{:.2f}%'.format(id, functions_percent_average,
                                                                      lines_percent_average,
                                                                      regions_percent_average))
 

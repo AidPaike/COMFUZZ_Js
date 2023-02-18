@@ -26,11 +26,6 @@ class Function_Object(object):
     #     return str(self.Function_Content)
 
     def count_var_lines(self, code: str):
-        """
-        数一数包含var的最后一行是第几行
-        :param file_path: 文件的地址
-        :return: 最后一个var的行数,也就是前缀的行数
-        """
         regex = r'function.*\n( {4}"use strict";\n)?( {4}var.*\n)*'
 
         matches = re.finditer(regex, code, re.MULTILINE)
@@ -66,28 +61,11 @@ class Function_Object(object):
 
         block_num = self.fineBlockIdx(gpt_block_list, prefix_line + 1)
 
-        # 当前块不是最后一个块的话
-        # if block_num != len(gpt_block_list):
-        # 使用当前代码块替换掉对应的代码块
         try:
-            # print('原用例')
-            # for block in orginal_block_list:
-            #     print(block)
-            #     print("-"*50)
-            #
-            # print('GPT用例')
-            # for block in gpt_block_list:
-            #     print(block)
-            #     print("-"*50)
 
             orginal_block_list_copy = orginal_block_list.copy()
 
             orginal_block_list_copy[block_num - 1] = gpt_block_list[block_num - 1]
-
-            # print('替换后')
-            # for block in orginal_block_list_copy:
-            #     print(block)
-            #     print("-"*50)
 
             code_string = ''
             for block in orginal_block_list_copy:
@@ -107,12 +85,6 @@ class Function_Object(object):
         return function_cut
 
     def fineBlockIdx(self, gpt_block_list, gpt_line_num):
-        """替换代码块
-        :param orginal_block_list: 原文件的代码块
-        :param gpt_block_list: gpt生成文件的代码块
-        :param gpt_line_num: gpt开始续写的第一行代码
-        :return:当前代码块
-        """
 
         block_count = 0
         line_count = 0
@@ -129,11 +101,6 @@ class Function_Object(object):
         return block_count + 1
 
     def analysis_js_block(self, code) -> list:
-        """
-        正则匹配代码块
-        :param test_str: 代码源文件
-        :return:
-        """
         block_list = []
         regex = r'(^ {4})([^} ].*)([^;]$)\n(.*\n)*? {4}}((\))?)(;?)$\n|^ {4}\w+.*;$\n|function.*\n|^}| {4}"use strict"\n;| {4}for.*{}\n'
         matches = re.finditer(regex, code, re.MULTILINE)
@@ -142,10 +109,6 @@ class Function_Object(object):
         return block_list
 
     def gpt_mutation_3(self, sess):
-        """
-        变量替换
-        :return:
-        """
         print("2.正在使用变量替换变异")
         start_time = time.time()
 
@@ -153,10 +116,8 @@ class Function_Object(object):
 
         var_number = self.countVarNumber(Function_Content_line_list)
         if var_number:
-            # 使用function的第一行来作为生成的前缀
             all_functions = self.function_generate(Function_Content_line_list[0], sess)
 
-            # 包含所有相同前缀提取出来的值得set
             varSet = []
             for function in all_functions:
                 # print(function)
@@ -174,7 +135,6 @@ class Function_Object(object):
             all_functions_replace_block_pass = set()
 
             if varSet:
-                # print(f'生成的变量定义{varSet}进行替换')
                 if var_number < 5:
                     code_list = self.ReplacevalueStatement(Function_Content_line_list, varSet, var_number)
 
@@ -192,19 +152,12 @@ class Function_Object(object):
             end_time = time.time()
 
             print(
-                f"生成了{len(all_functions_replace_block_pass)}个GPT变量替换用例，总耗时{int(end_time - start_time)}秒.")
+                f"generated{len(all_functions_replace_block_pass)}GPT variable replacement case, total time{int(end_time - start_time)}seconds.")
 
         else:
-            print(f'用例{self.Id}没有变量定义，跳过变量替换变异')
+            print(f'Use case{self.Id}No variable definition, skip variable substitution variants')
 
     def ReplacevalueStatement(self, test_str_line_list, valset, var_number):
-        """
-        正则匹配代码块,替换value值
-        :param test_str_line_list: 代码源文件line_list
-        :param valset: 生成的变量的字典
-        :param var_number: 变量的数量
-        :return:
-        """
 
         replaceLineDictList = []
 
@@ -222,7 +175,6 @@ class Function_Object(object):
 
         for item in iterPlan:
             # print(item)
-            # 生成迭代器，
             item_iter = iter(item)
 
             regex = r'^ {4}var \S+ = \S+;\n'
@@ -232,7 +184,6 @@ class Function_Object(object):
                 matches = re.search(regex, line, re.MULTILINE)
                 if matches:
                     old_value_statement = matches.group()
-                    # 获得下一个值:
                     valset_Choice = next(item_iter)
                     value = old_value_statement.split('= ')[1].split(';')[0]
 
@@ -257,11 +208,6 @@ class Function_Object(object):
         return codeList
 
     def getVar(self, line):
-        """
-        正则匹配代码块,判断是否是赋值语句
-        :param test_str_line_list: 代码源文件line_list
-        :return:
-        """
         # regex = r'^ {4}var .* = .*;$'
         regex = r'^ {4}var \S+ = \S+;'
 
@@ -273,11 +219,6 @@ class Function_Object(object):
             return value
 
     def countVarNumber(self, test_str_line_list):
-        """
-        正则匹配代码块,计算变量个数
-        :param test_str_line_list: 代码源文件line_list
-        :return:
-        """
 
         regex = r'^ {4}var \S+ = \S+;\n'
 
@@ -300,7 +241,6 @@ class Function_Object(object):
                                  Mutation_method, Mutation_times, Interesting_times, engine_coverage,
                                  Engine_coverage_integration_source, Engine_coverage_integration_all, Probability,
                                  Remark) -> list:
-        # 将生成的代码写入数据库
 
         lis = []
 
@@ -313,19 +253,9 @@ class Function_Object(object):
         return lis
 
     def jshint_check_testcases(self, all_testcases):
-        """
-        使用jshint对生成的用例进行检查\n
-        过滤掉语法错误的用例\n
-        保留正确的，再用于替换代码块变异\n
-        去掉用例中最后一行的print
-        :param all_functions: 所有方法的list
-        :return:
-        """
         start_time = time.time()
-        # print("正在对生成的用例使用jshint进行语法检查")
         all_testcases_pass = set()
         for testcase in all_testcases:
-            # 通过with语句创建临时文件，with会自动关闭临时文件
             testcase_no_print = testcase[:testcase.rfind('\n')]
             # print(testcase_no_print)
 
@@ -342,20 +272,13 @@ class Function_Object(object):
 
         end_time = time.time()
 
-        # print(
-        #     f"共组装了{len(all_testcases)}个用例，其中语法正确的用例共{len(all_testcases_pass)}个，检测总耗时{int(end_time - start_time)}秒.")
         return all_testcases_pass
 
     def cmd_jshint(self, temp_file_path):
-        """
-        使用jshint对生成的function进行检查\n
-        :param temp_file_path: 临时文件位置
-        :return: 语法正确返回true,语法错误返回false
-        """
         # cmd = ['timeout', '60s', 'jshint', temp_file_path]
         cmd = ['timeout', '60s', 'jshint', '-c', '/root/Comfuzz/COMFUZZ_js/data/.jshintrc', temp_file_path]
 
-        if sys.platform.startswith('win'):  # 假如是windows
+        if sys.platform.startswith('win'):
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
         else:  # 假如是linux
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -368,26 +291,19 @@ class Function_Object(object):
 
         if stdout.__len__() > 0:
             jshint_flag = False
-        else:  # 通过了检查，此时 test_file_name中就是美化后的代码
+        else:
             jshint_flag = True
             # print(f"{file_path}right!")
         return jshint_flag
 
     def assemble_to_testcase(self, times):
-        """
-        将function组装成用例
-        :return:
-        """
         callable_processor = CallableProcessor()
         try:
             function_assemle_list = set()
-
-            # 连续组装10次
             for i in range(times):
                 function_assemle = callable_processor.get_self_calling(self.Function_Content)
                 function_assemle_list.add(function_assemle)
 
-            # 用jshint检查用例语法
             all_testcases_pass = self.jshint_check_testcases(function_assemle_list)
 
             testcases_list_to_write = self.makeTestcasesListToWrite(all_testcases_pass, self.Id, 0, 0, 0, 0, 0, None, None, None, 0, None)
@@ -402,7 +318,6 @@ class Function_Object(object):
 
 
 def makeFunctionListToWrite(all_functions, SourceFun_id, mutation_type, mutation_times, Remark) -> list:
-    # 将生成的代码写入数据库
 
     lis = []
 
