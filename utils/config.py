@@ -1,6 +1,6 @@
 # sql_config
-DATABASE_ADDRESS = 'comfort_mysql'
-DATABASE_PORT = 33061
+DATABASE_ADDRESS = 'comfuzz_mysql'
+DATABASE_PORT = 3306
 DATABASE_NAME = 'JSFuzzing'
 DATABASE_USER = 'root'
 DATABASE_PASSWORD = 'mysql123'
