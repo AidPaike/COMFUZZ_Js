@@ -56,7 +56,7 @@ class harness:
     def run(self, list_unharness):
         if len(self.list_unharness) <= 0:
             self.list_unharness = list_unharness
-            print("There are %d insteresting test cases" % len(self.licst_unharness))
+            print("There are %d insteresting test cases" % len(self.list_unharness))
         pool = ThreadPool()
         results = pool.map(self.muti_harness, self.list_unharness)
         pool.close()

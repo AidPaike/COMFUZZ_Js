@@ -425,7 +425,7 @@ returncode_type:
         Stderr:
         Code:
           - content: '\.localeCompare\(.?\)'
-        remark: 'quickjs localeCompare property returns positive and negative numbers and 0, not necessarily 1, -1, 0'.
+        remark: 'quickjs localeCompare property returns positive and negative numbers and 0, not necessarily 1, -1, 0'
         remark-id: '2.28'
 
       - Stdout:
