@@ -7,8 +7,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from step1_generator import sourceToTable, enrich_function
 from step2_init import initproject, removeDB
 from step3_harness import harness, analysis
-from step4_mutation import mutation
-from loopProject import loopProject
+from step4_mutation import mutation,loopProject
+
 
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.append(BASE_DIR)
@@ -50,14 +50,14 @@ if __name__ == '__main__':
     # mutation
     mutation = mutation()
     analysis = analysis()
+
     # step4 loop
     loop_times = 0
     interesting_times = 0
     Fuzzing_times = 0
+    loopproject = loopProject()
     while True:
-        loopProject = loopProject(interesting_times, Fuzzing_times)
-        list_interesting, len_list_interesting = loopProject.run()
-
+        list_interesting, len_list_interesting = loopproject.run(interesting_times,Fuzzing_times)
         if len_list_interesting == 0 or loop_times == hparams.loop_times:
             interesting_times = 0
             Fuzzing_times = 1

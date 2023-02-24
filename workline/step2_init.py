@@ -26,13 +26,13 @@ class initproject:
         self.pbar.update(1)
 
     def run(self):
-        # pool = ThreadPool()
-        # results = pool.map(self.muti_assemble, self.lis)
-        # pool.close()
-        # pool.join()
-        # self.pbar.close()
-        # end_time = time.time()
-        # print(f'init take {int(end_time - self.start_time)}s')
+        pool = ThreadPool()
+        results = pool.map(self.muti_assemble, self.lis)
+        pool.close()
+        pool.join()
+        self.pbar.close()
+        end_time = time.time()
+        print(f'init combine take {int(end_time - self.start_time)}s')
         try:
             self.Table_Testbed.initTestbed()
             print('#' * 20 + 'init testbed success' + '#' * 20)
@@ -52,6 +52,7 @@ class removeDB:
         self.table_Function.deleteAllFromTableFunction()
         self.table_Testcases.deleteAllFromTableTestcase()
         self.Table_Result.deleteAllFromTableResult()
+        self.Table_Result.deleteAllFromTestbed()
 
 
 if __name__ == '__main__':

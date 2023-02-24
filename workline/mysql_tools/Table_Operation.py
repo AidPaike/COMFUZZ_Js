@@ -234,6 +234,9 @@ class Table_Result(object):
         sql = 'delete from Table_Result'
         return self.__table.deleteAll(sql)
 
+    def deleteAllFromTestbed(self):
+        sql = 'delete from Table_Testbed'
+        return self.__table.deleteAll(sql)
 
 
 class Table_Testbed(object):
