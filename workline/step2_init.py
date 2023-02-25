@@ -8,7 +8,7 @@ from tqdm import tqdm
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.append(BASE_DIR)
 from workline.table_to_class.Table_Function_Class import Function_Object
-from workline.mysql_tools.Table_Operation import Table_Function, Table_Testcase, Table_Result, Table_Testbed
+from workline.mysql_tools.Table_Operation import Table_Function, Table_Testcase, Table_Result, Table_Testbed, Table_Suspicious_Result
 
 
 class initproject:
@@ -47,12 +47,14 @@ class removeDB:
         self.table_Function = Table_Function()
         self.table_Testcases = Table_Testcase()
         self.Table_Result = Table_Result()
+        self.table_suspicious_Result = Table_Suspicious_Result()
 
     def run(self):
         self.table_Function.deleteAllFromTableFunction()
         self.table_Testcases.deleteAllFromTableTestcase()
         self.Table_Result.deleteAllFromTableResult()
         self.Table_Result.deleteAllFromTestbed()
+        self.table_suspicious_Result.deleteAllFromsus()
 
 
 if __name__ == '__main__':

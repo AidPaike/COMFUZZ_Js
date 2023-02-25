@@ -54,6 +54,9 @@ class Testcase_Object(object):
     def add_interesting_times(self, interesting_number):
         self.Interesting_times += interesting_number
 
+    def update_fuzzing_times(self, interesting_number):
+        self.Interesting_times = interesting_number
+
     def subtract_interesting_times(self, interesting_number):
         self.Interesting_times -= interesting_number
 
@@ -340,7 +343,6 @@ class Testcase_Object(object):
         if (self.SourceTestcase_id != 0):
             SourceCov = self.getSourceCov()
 
-
             # all_flag = 0
             #
             # for item in testcase_list:
@@ -365,7 +367,6 @@ class Testcase_Object(object):
             #     # print(item[0])
             #     otherTestcaseFromSameSourceTestcase.append(item[0])
             AllCov = self.getAllCov(self.testcase_list)
-
 
         # print(AllCov)
 

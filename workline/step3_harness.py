@@ -22,7 +22,7 @@ class harness:
         # Obtain the undifferentiated test case, make the difference, and insert the difference result into the database
         self.list_unharness = self.table_Testcases.selectFuzzingTimeFromTableTestcase(0)
         self.pbar = tqdm(total=len(self.list_unharness))
-        print("There are %d undifferentiated test cases" % len(self.list_unharness))
+        # print("There are %d undifferentiated test cases" % len(self.list_unharness))
 
     def muti_harness(self, testcase):
         testcase_object = Testcase_Object(testcase)
@@ -76,8 +76,7 @@ class analysis:
     def __init__(self):
         self.table_suspicious_Result = Table_Suspicious_Result()
         self.unfiltered_list = self.table_suspicious_Result.selectUnFilteredFromTable_Suspicious_Result()
-        # self.unfiltered_list = self.table_suspicious_Result.selectUnFilteredFromTable_Suspicious_Result_with_error_type(
-        #     "'crash'")
+        # self.unfiltered_list = self.table_suspicious_Result.selectUnFilteredFromTable_Suspicious_Result_with_error_type("'crash'")
         self.pbar = tqdm(total=len(self.unfiltered_list))
         self.start_time = time.time()
 
@@ -90,13 +89,16 @@ class analysis:
         self.pbar.update(1)
 
     def run(self):
-        pool = ThreadPool()
-        results = pool.map(self.muti_analysis, self.unfiltered_list)
-        pool.close()
-        pool.join()
-        end_time = time.time()
-        self.pbar.close()
-        print(f'take {int(end_time - self.start_time)}s')
+        if len(self.unfiltered_list):
+            pool = ThreadPool()
+            results = pool.map(self.muti_analysis, self.unfiltered_list)
+            pool.close()
+            pool.join()
+            end_time = time.time()
+            self.pbar.close()
+            print(f'analysis take {int(end_time - self.start_time)}s')
+        else:
+            print("暂时还没有可疑用例，跳过分析阶段")
 
 
 if __name__ == '__main__':

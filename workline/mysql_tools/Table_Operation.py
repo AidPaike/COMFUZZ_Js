@@ -21,12 +21,10 @@ class Table_Function(object):
 
         # return self.__table.selectOne(sql, prames)
 
-
     def selectFromTableFunctionForNumber(self, id, number):
         sql = 'select * from Table_Function where id=%s limit %s'
         prames = (id, number)
         return self.__table.selectmany(sql, prames)
-
 
     def selectAllFromTableFunction(self):
         sql = 'select * from Table_Function'
@@ -39,22 +37,18 @@ class Table_Function(object):
         prames = (Function_Content, SourceFun_Id, Mutation_Method, Remark)
         return self.__table.insert(sql, prames)
 
-
     def insertManyDataToTableFunction(self, lis):
         sql = 'insert into Table_Function(Function_content,SourceFun_id,Mutation_method,Mutation_times,Remark) values(%s,%s,%s,%s,%s)'
         return self.__table.insertMany(sql, lis)
-
 
     def deleteFromTableFunction(self, id):
         sql = 'delete from Table_Function where id=%s'
         prames = (id,)
         return self.__table.delete(sql, prames)
 
-
     def deleteAllFromTableFunction(self):
-        sql = 'delete from Table_Function'
+        sql = 'truncate  Table_Function'
         return self.__table.deleteAll(sql)
-
 
     def updateDataBaseHandle(self, id, Function_content):
         sql = 'update Table_Function set Function_content= %s where id = %s'
@@ -71,11 +65,9 @@ class Table_Function(object):
         return self.__table.selectall(sql)
 
 
-
 class Table_Testcase(object):
     def __init__(self):
         self.__table = DataBaseHandle()
-
 
     def selectOneFromTableTestcase(self, id):
         sql = 'select * from Table_Testcase where id=%s'
@@ -131,18 +123,15 @@ class Table_Testcase(object):
         sql = f'select * from Table_Testcase where SourceTestcase_id={SourceTestcase_id} and Fuzzing_times = 0'
         return self.__table.selectall(sql)
 
-
     def insertDataToTableTestcase(self, Testcase_context, SourceFun_id, SourceTestcase_id, Fuzzing_times,
                                   Mutation_method, Mutation_times, Interesting_times, engine_coverage,
                                   Engine_coverage_integration_source, Engine_coverage_integration_all, Probability,
                                   Remark):
-
         sql = 'INSERT INTO Table_Testcase(Testcase_context, SourceFun_id, SourceTestcase_id, Fuzzing_times,Mutation_method ,Mutation_times,Interesting_times,engine_coverage,Engine_coverage_integration_source,Engine_coverage_integration_all,Probability,Remark) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
         prames = (Testcase_context, SourceFun_id, SourceTestcase_id, Fuzzing_times, Mutation_method, Mutation_times,
                   Interesting_times, engine_coverage, Engine_coverage_integration_source,
                   Engine_coverage_integration_all, Probability, Remark)
         return self.__table.insert(sql, prames)
-
 
     def insertManyDataToTableTestcase(self, lis):
         sql = 'INSERT INTO Table_Testcase(Testcase_context, SourceFun_id, SourceTestcase_id, Fuzzing_times,Mutation_method ,Mutation_times,Interesting_times,engine_coverage,Engine_coverage_integration_source,Engine_coverage_integration_all,Probability,Remark) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
@@ -155,7 +144,7 @@ class Table_Testcase(object):
         return self.__table.delete(sql, prames)
 
     def deleteAllFromTableTestcase(self):
-        sql = 'delete from Table_Testcase'
+        sql = 'truncate  Table_Testcase'
         return self.__table.deleteAll(sql)
 
     def updateDataBaseHandle(self, id, Function_content):
@@ -175,20 +164,20 @@ class Table_Testcase(object):
         sql = 'update Table_Testcase set Mutation_times= %s where id = %s'
         prames = (MutationTimes, id)
         return self.__table.update(sql, prames)
-
+    def updateFuzzingTimes(self, Fuzzing_times, id):
+        sql = 'update Table_Testcase set Fuzzing_times= %s where id = %s'
+        prames = (Fuzzing_times, id)
+        return self.__table.update(sql, prames)
     def updateSourceEngine_coverage_integration_all(self, Engine_coverage_integration_all, id):
         sql = 'update Table_Testcase set Engine_coverage_integration_all= %s where id = %s'
         prames = (Engine_coverage_integration_all, id)
         return self.__table.update(sql, prames)
 
 
-
 class Table_Result(object):
-
 
     def __init__(self):
         self.__table = DataBaseHandle()
-
 
     def selectTestcasesFromTableResult(self, Testcase_id):
         sql = f'select * from Table_Result where Testcase_id={Testcase_id}'
@@ -198,8 +187,6 @@ class Table_Result(object):
         sql = 'select * from Table_Result'
         return self.__table.selectall(sql)
 
-
-
     def insertDataToTableResult(self, Testcase_Id, Testbed_Id, Returncode, Stdout, Stderr, duration_ms, seed_coverage,
                                 Remark):
         sql = 'INSERT INTO Table_Result(Testcase_Id, Testbed_Id, Returncode, Stdout,Stderr ,duration_ms,seed_coverage,Remark) values(%s,%s,%s,%s,%s,%s,%s,%s)'
@@ -207,10 +194,7 @@ class Table_Result(object):
             Testcase_Id, Testbed_Id, Returncode, Stdout, Stderr, duration_ms, seed_coverage, Remark)
         return self.__table.insert(sql, prames)
 
-
     def selectTestcaseIdFromTableResult(self, testcase_id):
-
-
         sql = f'select * from Table_Result where Testcase_id={testcase_id}'
         return self.__table.selectall(sql)
 
@@ -218,24 +202,21 @@ class Table_Result(object):
         sql = 'INSERT INTO Table_Result(Testcase_Id, Testbed_Id, Returncode, Stdout,Stderr ,duration_ms,seed_coverage,Remark) values(%s,%s,%s,%s,%s,%s,%s,%s)'
         return self.__table.insertMany(sql, lis)
 
-
     def deleteFromTableResult(self, id):
         sql = 'delete from Table_Result where id=%s'
         prames = (id,)
         return self.__table.delete(sql, prames)
 
-
     def deleteByTestcaseIdFromTableResult(self, testcase_id):
         sql = f'delete from Table_Result where testcase_id={testcase_id}'
         return self.__table.delete(sql)
 
-
     def deleteAllFromTableResult(self):
-        sql = 'delete from Table_Result'
+        sql = 'truncate  Table_Result'
         return self.__table.deleteAll(sql)
 
     def deleteAllFromTestbed(self):
-        sql = 'delete from Table_Testbed'
+        sql = 'truncate  Table_Testbed'
         return self.__table.deleteAll(sql)
 
 
@@ -320,3 +301,7 @@ class Table_Suspicious_Result(object):
     def deleteByTestcaseIdFromTable_Suspicious_Result(self, id):
         sql = f'delete from Table_Suspicious_Result where id={id}'
         return self.__table.delete(sql)
+
+    def deleteAllFromsus(self):
+        sql = 'truncate  Table_Suspicious_Result'
+        return self.__table.deleteAll(sql)

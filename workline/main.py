@@ -7,8 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from step1_generator import sourceToTable, enrich_function
 from step2_init import initproject, removeDB
 from step3_harness import harness, analysis
-from step4_mutation import mutation,loopProject
-
+from step4_mutation import mutation, loopProject
 
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.append(BASE_DIR)
@@ -57,12 +56,14 @@ if __name__ == '__main__':
     Fuzzing_times = 0
     loopproject = loopProject()
     while True:
-        list_interesting, len_list_interesting = loopproject.run(interesting_times,Fuzzing_times)
+        list_interesting, len_list_interesting = loopproject.run(interesting_times, Fuzzing_times)
         if len_list_interesting == 0 or loop_times == hparams.loop_times:
             interesting_times = 0
             Fuzzing_times = 1
 
         else:
+            print('找到目前是interesting的测试用例，目前interesting_times={},fuzzing_times={}'.format(interesting_times,
+                                                                                                     Fuzzing_times))
             harness.run(list_unharness=list_interesting)
             analysis.run()
             interesting_times = 1
@@ -70,11 +71,12 @@ if __name__ == '__main__':
             loop_times += 1
 
         if interesting_times == 1 and Fuzzing_times == 1:
+            print('进入了interesting测试，special变异')
             mutation.run('special', interesting_times, Fuzzing_times)
             harness.run(harness.list_11())
             analysis.run()
         elif interesting_times == 0 and Fuzzing_times == 1:
+            print('进入了通用变异，已经没有interesting了')
             mutation.run('universal', interesting_times, Fuzzing_times)
             harness.run(harness.list_01())
             analysis.run()
-

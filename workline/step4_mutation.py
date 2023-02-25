@@ -109,14 +109,11 @@ class mutation:
 
     def run(self, model, interesting_times, Fuzzing_times):
         table_testcase = Table_Testcase()
-        # Select the initial use case that has not been mutated
-        # list_unMutate = table_testcase.selectMutationTimeAndMutation_methodFromTableTestcase(0, 0)
         list_unMutate = table_testcase.selectInterestingTimeFromTableTestcase(interesting_times, Fuzzing_times)
         testcase_object_list = []
-
+        print('有{}个用例准备开始变异'.format(len(list_unMutate)))
         for unMutate_item in list_unMutate:
             testcase_object = Testcase_Object(unMutate_item)
-            # 更新当前用例的mutation time+1
             testcase_object.update_fuzzing_times(99)
             testcase_object_list.append(testcase_object)
         print("There are %d test cases that require variation" % len(testcase_object_list))
@@ -133,10 +130,7 @@ class mutation:
 
             for item in testcase_object_list:
                 # pbar.update(1)
-
                 print('*' * 25 + f'mutation testcase{item.Id}' + '*' * 25)
-
-                # 规则变异
                 print("Manual rule replacement in progress")
                 random_block_remove_pass, while_if_swap_pass, condition_code_add_pass, replaceOperator_pass, replace_similar_API_pass, replace_return_API_pass, proto_pollution_pass, property_modification_pass, hotspot_optimization_pass = item.mutation_method4(
                     model)
@@ -145,12 +139,9 @@ class mutation:
                     proto_pollution_pass) + len(property_modification_pass) + len(hotspot_optimization_pass)
                 print(f'The rule mutates {num} use cases')
 
-                # 生成变异
                 if useGptMutate:
                     print("Ongoing GPT mutation")
-
                     num_return_sequences = 50
-
                     start_gen = time.time()
                     FunctionsSet = {}
                     FunctionsReplaceBlockSet = {}
@@ -198,6 +189,7 @@ class mutation:
                     except:
                         pass
                 table_testcase.updateMutationTimes(item.Mutation_times + 1, item.Id)
+                table_testcase.updateFuzzingTimes(item.Fuzzing_times, item.Id)
 
         # pbar.close()
 
