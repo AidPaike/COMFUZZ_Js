@@ -1,1 +1,1 @@
-#覆盖率原目录，不删除
+# Cover the original directory and do not delete it

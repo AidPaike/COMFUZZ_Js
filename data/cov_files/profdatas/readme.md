@@ -1,1 +1,1 @@
-#覆盖率分析目录，临时，用完就会删除
+# Coverage analysis directory, temporary, will be deleted when used up
