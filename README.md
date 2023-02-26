@@ -54,7 +54,7 @@ python3 main.py
 
 If you want to see how the overall process works：
 ```
-python3 main.py --enrich_limit_num=10 --loop_times=5 --clean_project
+python3 main.py --enrich_limit_num=10 --loop_times=2 --clean_project
 ```
 
 For more details, you can use `python3 main.py --help` to see what this parameter means.

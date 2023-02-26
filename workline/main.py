@@ -56,27 +56,30 @@ if __name__ == '__main__':
     Fuzzing_times = 0
     loopproject = loopProject()
     while True:
+        print('now interesting_times={},fuzzing_times={},loop_times={}'.format(
+            interesting_times,
+            Fuzzing_times, loop_times))
         list_interesting, len_list_interesting = loopproject.run(interesting_times, Fuzzing_times)
         if len_list_interesting == 0 or loop_times == hparams.loop_times:
             interesting_times = 0
             Fuzzing_times = 1
-
+            loop_times = 0
         else:
-            print('找到目前是interesting的测试用例，目前interesting_times={},fuzzing_times={}'.format(interesting_times,
-                                                                                                     Fuzzing_times))
             harness.run(list_unharness=list_interesting)
             analysis.run()
             interesting_times = 1
             Fuzzing_times = 1
-            loop_times += 1
 
         if interesting_times == 1 and Fuzzing_times == 1:
-            print('进入了interesting测试，special变异')
+            # print('interesting test, special variant')
             mutation.run('special', interesting_times, Fuzzing_times)
             harness.run(harness.list_11())
             analysis.run()
+            loop_times += 1
         elif interesting_times == 0 and Fuzzing_times == 1:
-            print('进入了通用变异，已经没有interesting了')
+            # print('It is no longer interesting or looptimes when it enters the general variant')
             mutation.run('universal', interesting_times, Fuzzing_times)
             harness.run(harness.list_01())
             analysis.run()
+            interesting_times = 1
+            Fuzzing_times = 1

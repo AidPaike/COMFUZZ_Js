@@ -89,7 +89,8 @@ class analysis:
         self.pbar.update(1)
 
     def run(self):
-        if len(self.unfiltered_list):
+        self.unfiltered_list = self.table_suspicious_Result.selectUnFilteredFromTable_Suspicious_Result()
+        if len(self.unfiltered_list) > 0:
             pool = ThreadPool()
             results = pool.map(self.muti_analysis, self.unfiltered_list)
             pool.close()
@@ -98,6 +99,7 @@ class analysis:
             self.pbar.close()
             print(f'analysis take {int(end_time - self.start_time)}s')
         else:
+            print(len(self.unfiltered_list))
             print("暂时还没有可疑用例，跳过分析阶段")
 
 

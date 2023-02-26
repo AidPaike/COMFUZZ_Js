@@ -111,10 +111,10 @@ class mutation:
         table_testcase = Table_Testcase()
         list_unMutate = table_testcase.selectInterestingTimeFromTableTestcase(interesting_times, Fuzzing_times)
         testcase_object_list = []
-        print('有{}个用例准备开始变异'.format(len(list_unMutate)))
+        # print('There are {} use cases ready to mutate'.format(len(list_unMutate)))
         for unMutate_item in list_unMutate:
             testcase_object = Testcase_Object(unMutate_item)
-            testcase_object.update_fuzzing_times(99)
+            # testcase_object.update_fuzzing_times(99)
             testcase_object_list.append(testcase_object)
         print("There are %d test cases that require variation" % len(testcase_object_list))
 
@@ -189,7 +189,9 @@ class mutation:
                     except:
                         pass
                 table_testcase.updateMutationTimes(item.Mutation_times + 1, item.Id)
-                table_testcase.updateFuzzingTimes(item.Fuzzing_times, item.Id)
+                # print(str(item.Id)+"The mutation is complete. Silent instruction is about to be executed")
+                table_testcase.updateFuzzingTimes(99, item.Id)
+                # print(str(item.Id)+"The silent command has been executed, please check")
 
         # pbar.close()
 
