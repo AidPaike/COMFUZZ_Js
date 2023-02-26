@@ -100,7 +100,7 @@ class analysis:
             print(f'analysis take {int(end_time - self.start_time)}s')
         else:
             print(len(self.unfiltered_list))
-            print("暂时还没有可疑用例，跳过分析阶段")
+            print("There are no suspicious use cases yet, so skip the analysis phase")
 
 
 if __name__ == '__main__':

@@ -15,7 +15,7 @@ from workline.table_to_class.Table_Testcase_Class import Testcase_Object
 from workline.mysql_tools.Table_Operation import Table_Testcase
 from utils.config import MODEL_PATH
 
-# 添加环境变量
+
 os.environ['NODE_PATH'] = '/usr/lib/node_modules/'
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
