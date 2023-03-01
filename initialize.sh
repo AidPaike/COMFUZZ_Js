@@ -1,1 +1,1 @@
-python3 /root/Comfuzz/COMFUZZ_js/web/manage.py makemigrations && python3 /root/Comfuzz/COMFUZZ_js/web/manage.py migrate
+python3 /root/COMFUZZ/COMFUZZ_js/web/manage.py makemigrations && python3 /root/COMFUZZ/COMFUZZ_js/web/manage.py migrate

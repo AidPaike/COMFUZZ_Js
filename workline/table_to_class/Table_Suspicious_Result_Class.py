@@ -8,7 +8,7 @@ from workline.table_to_class.Table_Result_Class import Result_Object
 
 import yaml
 
-with open('/root/Comfuzz/COMFUZZ_js/workline/filter_info.yml', 'r', encoding='utf-8') as fr:
+with open('/root/COMFUZZ/COMFUZZ_js/workline/filter_info.yml', 'r', encoding='utf-8') as fr:
     filter_info = yaml.load(fr, Loader=yaml.SafeLoader)['returncode_type']
 
 

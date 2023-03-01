@@ -232,7 +232,7 @@ class ThreadLock(Thread):
         cmd = ["timeout", "-s9", timeout]
         # LLVM_PROFILE_FILE = f"{uniTag}.profraw"
         # The folder where the coverage files are saved
-        LLVM_PROFILE_FILE = f"/root/Comfuzz/COMFUZZ_js/data/cov_files/profraws/{testcase_id}.profraw"
+        LLVM_PROFILE_FILE = f"/root/COMFUZZ/COMFUZZ_js/data/cov_files/profraws/{testcase_id}.profraw"
         my_env = os.environ.copy()
         my_env['LLVM_PROFILE_FILE'] = LLVM_PROFILE_FILE
 

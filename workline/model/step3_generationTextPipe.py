@@ -10,7 +10,7 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
-def generationTextPipe(model_name_or_path="/root/comfuzz/comfuzz/data/train_model/distilgpt2_finetune/checkpoint-160000",
+def generationTextPipe(model_name_or_path="/root/COMFUZZ/comfuzz/data/train_model/distilgpt2_finetune/checkpoint-160000",
                        prefixList=["""function("""],
                        num_return_sequences=50,
                        max_length=512,

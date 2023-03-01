@@ -28,7 +28,7 @@ def cmd_jshint(temp_file_path):
     :return: 语法正确返回true,语法错误返回false
     """
     # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-    cmd = ['timeout', '10s', 'jshint', '-c', '/root/comfuzz/comfuzz/data/.jshintrc', temp_file_path]
+    cmd = ['timeout', '10s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
 
     if sys.platform.startswith('win'):  # 假如是windows
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
@@ -73,7 +73,7 @@ def repetitionRateGeneratedDataItself(allFunctions):
 
 
 def generateDataWithRepetitionRateTrainingSet(function):
-    trainDataFile = '/root/comfuzz/comfuzz/data/datasets/train_data_bos.txt'
+    trainDataFile = '/root/COMFUZZ/COMFUZZ_js/data/datasets/train_data_bos.txt'
     with open(trainDataFile, 'r') as f:
         trainDatasetContents = f.read()
         if function in trainDatasetContents:
@@ -91,7 +91,7 @@ def multithreadedAnalysis(function):
     generateDataWithRepetitionRateTrainingSet(function)
 
 
-model_name = "/root/comfuzz/confuzz_js/data/train_model/distilgpt2_new/checkpoint-640000"
+model_name = "/root/COMFUZZ/COMFUZZ_js/data/train_model/distilgpt2_new/checkpoint-640000"
 
 num = 50
 

@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append('/root/Comfuzz')
+sys.path.append('/root/COMFUZZ')
 
 
 class Result_Object(object):

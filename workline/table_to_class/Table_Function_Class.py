@@ -276,7 +276,7 @@ class Function_Object(object):
 
     def cmd_jshint(self, temp_file_path):
         # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-        cmd = ['timeout', '60s', 'jshint', '-c', '/root/Comfuzz/COMFUZZ_js/data/.jshintrc', temp_file_path]
+        cmd = ['timeout', '60s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
 
         if sys.platform.startswith('win'):
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)

@@ -82,7 +82,7 @@ class Testcase_Object(object):
 
     def cmd_jshint(self, temp_file_path):
         # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-        cmd = ['timeout', '60s', 'jshint', '-c', '/root/Comfuzz/COMFUZZ_js/data/.jshintrc', temp_file_path]
+        cmd = ['timeout', '60s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
         if sys.platform.startswith('win'):
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
         else:
@@ -197,7 +197,7 @@ class Testcase_Object(object):
         else:
             model = 'both'
         if model == 'universal' or model == 'both':
-            cmd1 = ['node', '/root/Comfuzz/COMFUZZ_js/workline/mutator_testcase_tools/universal_mutation.js', '-f',
+            cmd1 = ['node', '/root/COMFUZZ/COMFUZZ_js/workline/mutator_testcase_tools/universal_mutation.js', '-f',
                     file_name]
             pro1 = subprocess.Popen(cmd1, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE, universal_newlines=True)
@@ -216,7 +216,7 @@ class Testcase_Object(object):
                     elif split_i[-1] == "replaceOperator" and (i not in replaceOperator):
                         replaceOperator.append(i[:i.rfind('\n')])
         elif model == 'special' or model == 'both':
-            cmd2 = ['node', '/root/Comfuzz/COMFUZZ_js/workline/mutator_testcase_tools/special_mutation.js', '-f',
+            cmd2 = ['node', '/root/COMFUZZ/COMFUZZ_js/workline/mutator_testcase_tools/special_mutation.js', '-f',
                     file_name]
             pro2 = subprocess.Popen(cmd2, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE, universal_newlines=True)
@@ -375,7 +375,7 @@ class Testcase_Object(object):
     def processCov(self, *profraws):
         # print(profraws)
         profraws_len = len(profraws)
-        COV_PATH = "/root/Comfuzz/COMFUZZ_js/data/cov_files"
+        COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
         PROFDATA_PATH = f"{COV_PATH}/profdatas/{profraws[0]}_{profraws_len}.prodata"
         PROFRAWS_PATH = COV_PATH + "/profraws"
         COV_ENGHINES_PATH = '/root/.jsvu/engines/chakra-1.13-cov/ch'
@@ -397,7 +397,7 @@ class Testcase_Object(object):
     def processAllCov(self, *profraws):
         # print(profraws)
         profraws_len = len(profraws)
-        COV_PATH = "/root/Comfuzz/COMFUZZ_js/data/cov_files"
+        COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
         PROFDATA_PATH = f"{COV_PATH}/profdatas/{profraws[0]}_{profraws_len}.prodata"
         PROFRAWS_PATH = COV_PATH + "/profraws"
         COV_ENGHINES_PATH = '/root/.jsvu/engines/chakra-1.13-cov/ch'
@@ -415,7 +415,7 @@ class Testcase_Object(object):
         return coverage_stdout_finally
 
     def removeCov(self, *profraws):
-        COV_PATH = "/root/Comfuzz/COMFUZZ_js/data/cov_files"
+        COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
         PROFRAWS_PATH = COV_PATH + "/profraws"
 
         profraws_cmd = ''
