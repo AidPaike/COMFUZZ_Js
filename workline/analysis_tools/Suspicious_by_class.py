@@ -6,7 +6,7 @@ def findTypeId(type_name):
     testcase_id_set = set()
     for item in testcase_list:
         testcase_id_set.add(item[2])
-    print(f"{type_name}type ， have：{len(testcase_id_set)}个")
+    print(f"{type_name}type ， have：{len(testcase_id_set)} items")
     print(testcase_id_set)
 
 

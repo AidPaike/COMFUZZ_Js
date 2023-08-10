@@ -8,6 +8,10 @@ import time
 from workline.mysql_tools.Table_Operation import Table_Testcase, Table_Function
 from workline.assemble_tools.callable_processor import CallableProcessor
 
+from utils.worklineConfig import Hparams
+
+hparams = Hparams().parser.parse_args()
+
 
 class Function_Object(object):
 
@@ -109,7 +113,7 @@ class Function_Object(object):
         return block_list
 
     def gpt_mutation_3(self, sess):
-        print("2.正在使用变量替换变异")
+        print("2.Variable substitution variants are being used")
         start_time = time.time()
 
         Function_Content_line_list = self.Function_Content.splitlines(True)
@@ -248,7 +252,7 @@ class Function_Object(object):
             Testcases_content = testcase
             item = [Testcases_content, SourceFun_id, SourceTestcase_id, Fuzzing_times, Mutation_method,
                     Mutation_times, Interesting_times, engine_coverage,
-                                  Engine_coverage_integration_source, Engine_coverage_integration_all, Probability, Remark]
+                    Engine_coverage_integration_source, Engine_coverage_integration_all, Probability, Remark]
             lis.append(item)
         return lis
 
@@ -276,11 +280,12 @@ class Function_Object(object):
 
     def cmd_jshint(self, temp_file_path):
         # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-        cmd = ['timeout', '60s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
+        # cmd = ['timeout', '60s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
+        cmd = ['timeout', '60s', 'jshint', '-c', hparams.cmd_jshint_dir, temp_file_path]
 
         if sys.platform.startswith('win'):
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        else:  # 假如是linux
+        else:  # if it's linux.
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = p.communicate()
         # if stdout:
@@ -306,7 +311,8 @@ class Function_Object(object):
 
             all_testcases_pass = self.jshint_check_testcases(function_assemle_list)
 
-            testcases_list_to_write = self.makeTestcasesListToWrite(all_testcases_pass, self.Id, 0, 0, 0, 0, 0, None, None, None, 0, None)
+            testcases_list_to_write = self.makeTestcasesListToWrite(all_testcases_pass, self.Id, 0, 0, 0, 0, 0, None,
+                                                                    None, None, 0, None)
 
             table_Testcase = Table_Testcase()
 
@@ -318,7 +324,6 @@ class Function_Object(object):
 
 
 def makeFunctionListToWrite(all_functions, SourceFun_id, mutation_type, mutation_times, Remark) -> list:
-
     lis = []
 
     for function in all_functions:

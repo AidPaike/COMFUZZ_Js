@@ -1,11 +1,16 @@
-# 删除已经保存好覆盖率的用例
+# Delete use cases with coverage already saved
+import os
 import subprocess
 
 from workline.mysql_tools.Table_Operation import Table_Testcase
+from utils.worklineConfig import Hparams
+
+hparams = Hparams().parser.parse_args()
 
 
 def removeCov(self, *profraws):
-    COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
+    # COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
+    COV_PATH = hparams.COV_PATH
     PROFRAWS_PATH = COV_PATH + "/profraws"
 
     profraws_cmd = ''

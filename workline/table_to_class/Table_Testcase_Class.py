@@ -4,12 +4,14 @@
 # BASE_DIR = str(Path(__file__).resolve().parent.parent.parent)
 # sys.path.append(BASE_DIR)
 import subprocess
-import sys
+import sys, re
 import tempfile
 from workline.harness_tools.harness_class import Harness
 from workline.mysql_tools.Table_Operation import Table_Testcase, Table_Function
 from workline.table_to_class.Table_Function_Class import Function_Object
-import re
+from utils.worklineConfig import Hparams
+
+hparams = Hparams().parser.parse_args()
 
 
 class Testcase_Object(object):
@@ -82,7 +84,8 @@ class Testcase_Object(object):
 
     def cmd_jshint(self, temp_file_path):
         # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-        cmd = ['timeout', '60s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
+        # cmd = ['timeout', '60s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
+        cmd = ['timeout', '60s', 'jshint', '-c', hparams.cmd_jshint_dir, temp_file_path]
         if sys.platform.startswith('win'):
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
         else:
@@ -197,7 +200,9 @@ class Testcase_Object(object):
         else:
             model = 'both'
         if model == 'universal' or model == 'both':
-            cmd1 = ['node', '/root/COMFUZZ/COMFUZZ_js/workline/mutator_testcase_tools/universal_mutation.js', '-f',
+            #     cmd1 = ['node', '/root/COMFUZZ/COMFUZZ_js/workline/mutator_testcase_tools/universal_mutation.js', '-f',
+            #             file_name]
+            cmd1 = ['node', hparams.universal_mutation_path, '-f',
                     file_name]
             pro1 = subprocess.Popen(cmd1, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE, universal_newlines=True)
@@ -216,7 +221,9 @@ class Testcase_Object(object):
                     elif split_i[-1] == "replaceOperator" and (i not in replaceOperator):
                         replaceOperator.append(i[:i.rfind('\n')])
         elif model == 'special' or model == 'both':
-            cmd2 = ['node', '/root/COMFUZZ/COMFUZZ_js/workline/mutator_testcase_tools/special_mutation.js', '-f',
+            # cmd2 = ['node', '/root/COMFUZZ/COMFUZZ_js/workline/mutator_testcase_tools/special_mutation.js', '-f',
+            #         file_name]
+            cmd2 = ['node', hparams.special_mutation_path, '-f',
                     file_name]
             pro2 = subprocess.Popen(cmd2, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE, universal_newlines=True)
@@ -375,7 +382,9 @@ class Testcase_Object(object):
     def processCov(self, *profraws):
         # print(profraws)
         profraws_len = len(profraws)
-        COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
+        # COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
+        COV_PATH = hparams.COV_PATH
+        # PROFDATA_PATH = f"{COV_PATH}/profdatas/{profraws[0]}_{profraws_len}.prodata"
         PROFDATA_PATH = f"{COV_PATH}/profdatas/{profraws[0]}_{profraws_len}.prodata"
         PROFRAWS_PATH = COV_PATH + "/profraws"
         COV_ENGHINES_PATH = '/root/.jsvu/engines/chakra-1.13-cov/ch'
@@ -397,7 +406,8 @@ class Testcase_Object(object):
     def processAllCov(self, *profraws):
         # print(profraws)
         profraws_len = len(profraws)
-        COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
+        # COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
+        COV_PATH = hparams.COV_PATH
         PROFDATA_PATH = f"{COV_PATH}/profdatas/{profraws[0]}_{profraws_len}.prodata"
         PROFRAWS_PATH = COV_PATH + "/profraws"
         COV_ENGHINES_PATH = '/root/.jsvu/engines/chakra-1.13-cov/ch'
@@ -415,7 +425,8 @@ class Testcase_Object(object):
         return coverage_stdout_finally
 
     def removeCov(self, *profraws):
-        COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
+        # COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
+        COV_PATH = hparams.COV_PATH
         PROFRAWS_PATH = COV_PATH + "/profraws"
 
         profraws_cmd = ''

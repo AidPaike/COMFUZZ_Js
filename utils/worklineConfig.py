@@ -31,3 +31,15 @@ class Hparams:
 
     parser.add_argument('--train_datasets', default=os.path.join(COMFUZZ_JS_Path, "data/datasets/train_data_bos.txt"),
                         help='train dataset')
+
+    parser.add_argument('--filter_info_path', default=os.path.join(COMFUZZ_JS_Path, "workline/filter_info.yml"),
+                        help='filter info path')
+    parser.add_argument('--universal_mutation_path',
+                        default=os.path.join(COMFUZZ_JS_Path, "workline/mutator_testcase_tools/universal_mutation.js"),
+                        help="universal mutation path")
+    parser.add_argument('--special_mutation_path',
+                        default=os.path.join(COMFUZZ_JS_Path, "workline/mutator_testcase_tools/special_mutation.js"),
+                        help="universal mutation path")
+    parser.add_argument('--COV_PATH', default=os.path.join(COMFUZZ_JS_Path, "data/cov_files"),
+                        help="cov files path")
+    parser.add_argument('--init_django', default=os.path.join(COMFUZZ_JS_Path, "web/manage.py"))

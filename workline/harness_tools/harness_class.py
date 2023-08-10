@@ -149,7 +149,7 @@ class HarnessResult:
         table_result = Table_Result()
         for output in self.outputs:
             table_result.insertDataToTableResult(self.testcase_id, output.testbed_id, output.returncode, output.stdout,
-                                                 output.stderr, output.duration_ms, 0,None)
+                                                 output.stderr, output.duration_ms, 0, None)
 
 
 class Output:
@@ -227,7 +227,6 @@ class ThreadLock(Thread):
 
         except BaseException as e:
             self.returnInfo = 1
-
 
     def run_test_case(self, testcase_id: int, testbed_location: str, testcase_path: pathlib.Path, testbed_id,
                       timeout, ):
@@ -351,8 +350,6 @@ class Harness:
                 # print(coverage)
 
                 # return outputs, coverage
-
-
 
                 result.outputs = outputs
             except Exception as e:
