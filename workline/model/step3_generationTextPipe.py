@@ -1,23 +1,25 @@
 #!/usr/bin/env python
 # coding=utf-8
-
+import time, os, sys
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from transformers import pipeline
-import time
-import sys
-import os
+from utils.worklineConfig import Hparams
+
+hparams = Hparams().parser.parse_args()
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
-def generationTextPipe(model_name_or_path="/root/COMFUZZ/comfuzz/data/train_model/distilgpt2_finetune/checkpoint-160000",
-                       prefixList=["""function("""],
-                       num_return_sequences=50,
-                       max_length=512,
-                       temperature=1,
-                       p=0.9,
-                       k=0,
-                       ):
+def generationTextPipe(
+        # model_name_or_path="/root/COMFUZZ/comfuzz/data/train_model/distilgpt2_finetune/checkpoint-160000",
+        model_name_or_path=os.path.join(hparams.model_path, "distilgpt2/checkpoint-640000"),
+        prefixList=["""function("""],
+        num_return_sequences=50,
+        max_length=512,
+        temperature=1,
+        p=0.9,
+        k=0,
+):
     start = time.time()
 
     print(f'Loading the model, this will take about 10 seconds, please wait')

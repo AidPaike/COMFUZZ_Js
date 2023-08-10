@@ -11,10 +11,12 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.append(BASE_DIR)
+from utils.worklineConfig import Hparams
 from workline.table_to_class.Table_Testcase_Class import Testcase_Object
 from workline.mysql_tools.Table_Operation import Table_Testcase
 from utils.config import MODEL_PATH
 
+hparams = Hparams().parser.parse_args()
 
 os.environ['NODE_PATH'] = '/usr/lib/node_modules/'
 
@@ -34,7 +36,7 @@ class mutation:
             :return: Returns true with correct syntax and false with incorrect syntax
             """
             # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-            cmd = ['timeout', '10s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
+            cmd = ['timeout', '10s', 'jshint', '-c', hparams.cmd_jshint_dir, temp_file_path]
 
             if sys.platform.startswith('win'):  # If it's windows
                 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)

@@ -16,21 +16,23 @@ import tempfile
 import os
 
 from workline.model.step3_generationTextPipe import generationTextPipe
+from utils.worklineConfig import Hparams
 
+hparams = Hparams().parser.parse_args()
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 
 def cmd_jshint(temp_file_path):
     """
-    使用jshint对生成的function进行检查\n
-    :param temp_file_path: 临时文件位置
-    :return: 语法正确返回true,语法错误返回false
+    Checking the generated function using jshint \n
+    :param temp_file_path: temporary file location
+    :return: return true if syntax is correct, false if syntax is wrong
     """
     # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-    cmd = ['timeout', '10s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
+    cmd = ['timeout', '10s', 'jshint', '-c', hparams.cmd_jshint_dir, temp_file_path]
 
-    if sys.platform.startswith('win'):  # 假如是windows
+    if sys.platform.startswith('win'):  # If it's windows
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
     else:  # 假如是linux
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -43,7 +45,7 @@ def cmd_jshint(temp_file_path):
 
     if stdout.__len__() > 0:
         jshint_flag = False
-    else:  # 通过了检查，此时 test_file_name中就是美化后的代码
+    else:  # passes the check, and now test_file_name contains the beautified code
         jshint_flag = True
         # print(f"{temp_file_path}right!")
     return jshint_flag
@@ -73,7 +75,8 @@ def repetitionRateGeneratedDataItself(allFunctions):
 
 
 def generateDataWithRepetitionRateTrainingSet(function):
-    trainDataFile = '/root/COMFUZZ/COMFUZZ_js/data/datasets/train_data_bos.txt'
+    # trainDataFile = '/root/COMFUZZ/COMFUZZ_js/data/datasets/train_data_bos.txt'
+    trainDataFile = hparams.train_datasets
     with open(trainDataFile, 'r') as f:
         trainDatasetContents = f.read()
         if function in trainDatasetContents:
@@ -91,7 +94,8 @@ def multithreadedAnalysis(function):
     generateDataWithRepetitionRateTrainingSet(function)
 
 
-model_name = "/root/COMFUZZ/COMFUZZ_js/data/train_model/distilgpt2_new/checkpoint-640000"
+# model_name = "/root/COMFUZZ/COMFUZZ_js/data/train_model/distilgpt2_new/checkpoint-640000"
+model_name = os.path.join(hparams.model_path, "distilgpt2/checkpoint-640000")
 
 num = 50
 
@@ -105,7 +109,6 @@ k = 0
 
 start_gen = time.time()
 
-# print(f'---------------第{i+1}次测试---------------')
 prefixList = []
 
 prefix1 = """function("""
@@ -120,7 +123,8 @@ totalSize = len(allFunctions)
 
 print(f'max length---->{max_length}')
 
-print(f'总共生成{totalSize}个方法,生成速度:{int(len(allFunctions) / (end_time - start_gen))}个/秒')
+print(
+    f'Generate a total of {totalSize} method, generation speed: {int(len(allFunctions) / (end_time - start_gen))}item/s')
 
 generateDataWithRepetitionRateTrainingSetCount = 0
 
@@ -138,14 +142,16 @@ pool.join()
 
 noRepeatFunctionsSize = repetitionRateGeneratedDataItself(allFunctions)
 
-print("生成的用例语法正确率为{:.2%},".format(len(testJshintPassRateSet) / totalSize))
+print("The syntactic correctness of the generated use cases is {:.2%},".format(len(testJshintPassRateSet) / totalSize))
 
-print("生成数据本身的重复率为{:.2%}".format(1 - noRepeatFunctionsSize / totalSize))
+print("The duplication rate of the generated data itself is {:.2%}".format(1 - noRepeatFunctionsSize / totalSize))
 
-print("生成数据与训练集的重复率为{:.2%}".format(generateDataWithRepetitionRateTrainingSetCount / totalSize))
+print("The repetition rate of the generated data with the training set is {:.2%}".format(
+    generateDataWithRepetitionRateTrainingSetCount / totalSize))
 
-# 统计通过语法检查的代码行数
+# Count the number of lines of code that pass syntax checking
 for testJshintPassRate in testJshintPassRateSet:
     averageNumberRowsToGenerateData(testJshintPassRate)
 
-print("语法正确方法的平均行数为{}行".format(int(averageNumberRowsToGenerateDataCount / totalSize)))
+print("The average number of lines for grammatically correct methods is {} lines".format(
+    int(averageNumberRowsToGenerateDataCount / totalSize)))

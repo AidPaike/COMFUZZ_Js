@@ -237,9 +237,9 @@ var proto_pollution = function(source) {
         enter: function (node, parent) {
             var offset = 0;
             if(node.type == "VariableDeclaration" && node.declarations[0].type == "VariableDeclarator"){
-                //判断是否为直接定义
+                // Determine if it is directly defined
                 if(node.declarations[0].init.type == "ObjectExpression"){
-                    //获取语句所在代码块的位置
+                    // Get the location of the code block where the statement is located.
                     for(var index = 0; index < parent.body.length; index ++){
                         if (parent.body[index] == node)  break;
                     }

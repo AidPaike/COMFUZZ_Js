@@ -156,10 +156,10 @@ def adjust_length_to_model(length, max_sequence_length):
     return length
 
 
-def generate(model_name_or_path="/root/Comfort_all/data/train_model/distilgpt2_finetune",
-         prompt="function(",
-         num_return_sequences=5,
-         length=512):
+def generate(model_name_or_path="/root/Comfort_all/data/model/distilgpt2/checkpoint-640000",
+             prompt="function(",
+             num_return_sequences=5,
+             length=512):
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--model_type",
@@ -171,8 +171,6 @@ def generate(model_name_or_path="/root/Comfort_all/data/train_model/distilgpt2_f
     parser.add_argument(
         "--model_name_or_path",
         default=model_name_or_path,
-        # default=None,
-        # default="/root/Comfort_all/data/train_model/distilgpt2_finetune/checkpoint-40000",
         type=str,
         required=False,
         help="Path to pre-trained model or shortcut name selected in the list: " + ", ".join(MODEL_CLASSES.keys()),

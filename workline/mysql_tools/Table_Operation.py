@@ -3,7 +3,7 @@ from workline.mysql_tools.db_operation_base import DataBaseHandle
 
 class Table_Function(object):
     def __init__(self):
-        # 实例化 DataBaseHandle()
+        # Instantiate DataBaseHandle()
         self.__table = DataBaseHandle()
 
     def selectOneFromTableFunction(self, id):
@@ -30,7 +30,7 @@ class Table_Function(object):
         sql = 'select * from Table_Function'
         return self.__table.selectall(sql)
 
-    # 插入单行数据
+    # Insert a single row of data
     def insertDataToTableFunction(self, Function_Content, SourceFun_Id, Mutation_Method, Remark):
         # INSERT INTO Table_Function(Function_content,SourceFun_id,Mutation_method,Remark) values ("var NISLFuzzingFunc = function(a, b) {'var NISLFuzzingFunc = function() {\n}",0,0,0);
         sql = 'INSERT INTO Table_Function(Function_content,SourceFun_id,Mutation_method,Remark) values(%s,%s,%s,%s)'
@@ -98,7 +98,7 @@ class Table_Testcase(object):
         sql = f'select * from Table_Testcase where Mutation_method!={Mutation_method}'
         return self.__table.selectall(sql)
 
-    # 选择没有被变异过得最初的种子池
+    # Selection of seed pools that have not been mutated through the initial period of time
     def selectMutationTimeAndMutation_methodFromTableTestcase(self, Mutation_method, MutationTime):
         sql = f'select * from Table_Testcase where Mutation_method ={Mutation_method} and Mutation_times ={MutationTime}'
         return self.__table.selectall(sql)

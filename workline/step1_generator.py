@@ -12,11 +12,15 @@ BASE_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.append(BASE_DIR)
 
 from utils.config import MODEL_PATH
+from utils.worklineConfig import Hparams
 from workline.table_to_class.Table_Function_Class import Function_Object, write_to_Table_function, \
     makeFunctionListToWrite
 from workline.mysql_tools.Table_Operation import Table_Function
+
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from transformers import pipeline
+
+hparams = Hparams().parser.parse_args()
 
 
 # Table_Function format
@@ -25,7 +29,8 @@ from transformers import pipeline
 
 class sourceToTable:
     def __init__(self):
-        self.js_dir = r"/root/COMFUZZ/COMFUZZ_js/data/JStestcases/"
+        self.js_dir = hparams.js_dir
+        # self.js_dir = r"/root/COMFUZZ/COMFUZZ_js/data/JStestcases/"
         self.lis = []
 
     def readFileAll(self, path):
@@ -62,7 +67,7 @@ class enrich_function:
             :return: Returns true with correct syntax and false with incorrect syntax
             """
             # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-            cmd = ['timeout', '10s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
+            cmd = ['timeout', '10s', 'jshint', '-c', hparams.cmd_jshint_dir, temp_file_path]
 
             if sys.platform.startswith('win'):  # If it's windows
                 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
@@ -214,11 +219,12 @@ class enrich_function:
                     print('The prefix list is empty and cannot be expanded')
                 # table_Function.updateMutationTimes(item.Mutation_Times + 1, item.Id)
 
-# if __name__ == '__main__':
-#     sourcetotable = sourceToTable()
-#     enrichfunction = enrich_function()
-#     start = time.time()
-#     sourcetotable.run(js_dir=sourcetotable.js_dir)
-#     print('source To Table is used:', int(time.time() - start), 's')
-#     enrichfunction.run(limit_num=100)
-#     print('enrich function is used:', int(time.time() - start), 's')
+
+if __name__ == '__main__':
+    sourcetotable = sourceToTable()
+    # enrichfunction = enrich_function()
+    # start = time.time()
+    # sourcetotable.run(js_dir=sourcetotable.js_dir)
+    # print('source To Table is used:', int(time.time() - start), 's')
+    # enrichfunction.run(limit_num=100)
+    # print('enrich function is used:', int(time.time() - start), 's')

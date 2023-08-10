@@ -2,7 +2,7 @@
 const esprima = require('esprima');
 const estraverse = require('estraverse');
 const escodegen = require('escodegen');
-//引入commander
+//Introduce commander
 const commander = require("commander");
 
 const fs = require("fs");

@@ -1,14 +1,15 @@
 # Read the method from Table_Function, assemble the use case, and write Table_Testcase
 import time
 from multiprocessing.dummy import Pool as ThreadPool
-import sys,os
+import sys, os
 from pathlib import Path
 from tqdm import tqdm
 
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.append(BASE_DIR)
 from workline.table_to_class.Table_Function_Class import Function_Object
-from workline.mysql_tools.Table_Operation import Table_Function, Table_Testcase, Table_Result, Table_Testbed, Table_Suspicious_Result
+from workline.mysql_tools.Table_Operation import Table_Function, Table_Testcase, Table_Result, Table_Testbed, \
+    Table_Suspicious_Result
 
 
 class initproject:
@@ -38,7 +39,6 @@ class initproject:
             print('#' * 20 + 'init testbed success' + '#' * 20)
         except Exception as e:
             print('init testbed fail:' + str(e))
-
 
 
 class removeDB:

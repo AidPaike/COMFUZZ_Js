@@ -155,7 +155,6 @@ class Suspicious_Result_Object(object):
 
         # if type == 'stdout':
 
-
     def runWithAsan(self, testcase):
         timeout = 30
         testbed_id = self.Testbed_id

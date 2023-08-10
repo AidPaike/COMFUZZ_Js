@@ -176,7 +176,7 @@ class CallableProcessor:
         output_statement += 'print(NISLCallingResult);'
         return output_statement
 
-    def get_random_self_calling(self):
+    def get_random_self_calling(self) -> object:
         choice = random.randint(0, self.callables.__len__() - 1)
         function_body = self.callables[choice].__getitem__(0).decode()
         return self.generate_self_calling(function_body)
