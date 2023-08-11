@@ -43,3 +43,16 @@ class Hparams:
     parser.add_argument('--COV_PATH', default=os.path.join(COMFUZZ_JS_Path, "data/cov_files"),
                         help="cov files path")
     parser.add_argument('--init_django', default=os.path.join(COMFUZZ_JS_Path, "web/manage.py"))
+
+# if __name__ == '__main__':
+#     hparams = Hparams().parser.parse_args()
+#     print(hparams.init_django)
+#     print(hparams.COV_PATH)
+#     print(hparams.special_mutation_path)
+#     print(hparams.universal_mutation_path)
+#     print(hparams.filter_info_path)
+#     print(hparams.train_datasets)
+#     print(hparams.model_path)
+#     print(hparams.LLVM_PROFILE_dir)
+#     print(hparams.cmd_jshint_dir)
+#     print(hparams.js_dir)

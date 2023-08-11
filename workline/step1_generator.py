@@ -222,9 +222,9 @@ class enrich_function:
 
 if __name__ == '__main__':
     sourcetotable = sourceToTable()
-    # enrichfunction = enrich_function()
-    # start = time.time()
-    # sourcetotable.run(js_dir=sourcetotable.js_dir)
-    # print('source To Table is used:', int(time.time() - start), 's')
-    # enrichfunction.run(limit_num=100)
-    # print('enrich function is used:', int(time.time() - start), 's')
+    enrichfunction = enrich_function()
+    start = time.time()
+    sourcetotable.run(js_dir=sourcetotable.js_dir)
+    print('source To Table is used:', int(time.time() - start), 's')
+    enrichfunction.run(limit_num=100)
+    print('enrich function is used:', int(time.time() - start), 's')

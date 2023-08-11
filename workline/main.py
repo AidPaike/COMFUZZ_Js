@@ -7,7 +7,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from step1_generator import sourceToTable, enrich_function
 from step2_init import initproject, removeDB
 from step3_harness import harness, analysis
-from step4_mutation import mutation, loopProject
+from step4_mutation import mutation
+from step5_filter import loopProject
 
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.append(BASE_DIR)
