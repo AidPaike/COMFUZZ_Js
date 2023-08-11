@@ -17,13 +17,14 @@ import time
 
 if __name__ == '__main__':
     hparams = Hparams().parser.parse_args()
-    # init databases
-    try:
-        cmd = f"python3 {hparams.init_django} makemigrations && python3 {hparams.init_django} migrate"
-        os.system(cmd)
-        print('init databases success!')
-    except Exception as e:
-        print('init databases error!')
+    print(hparams)
+    # # init databases
+    # try:
+    #     cmd = f"python3 {hparams.init_django} makemigrations && python3 {hparams.init_django} migrate"
+    #     os.system(cmd)
+    #     print('init databases success!')
+    # except Exception as e:
+    #     print('init databases error!')
     # clean project database
     if hparams.clean_project:
         removeDB = removeDB()

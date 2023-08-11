@@ -11,10 +11,8 @@ from threading import Thread
 from typing import List
 
 from utils import labdate
-from utils.worklineConfig import Hparams
+from utils.config import LLVM_PROFILE_DIR
 from workline.mysql_tools.Table_Operation import Table_Testbed, Table_Result, Table_Suspicious_Result
-
-hparams = Hparams().parser.parse_args()
 
 Majority = collections.namedtuple('Majority', [
     'majority_outcome', 'outcome_majority_size',
@@ -235,7 +233,7 @@ class ThreadLock(Thread):
         # LLVM_PROFILE_FILE = f"{uniTag}.profraw"
         # The folder where the coverage files are saved
         # LLVM_PROFILE_FILE = f"/root/COMFUZZ/COMFUZZ_js/data/cov_files/profraws/{testcase_id}.profraw"
-        LLVM_PROFILE_FILE = os.path.join(hparams.LLVM_PROFILE_dir, f"{testcase_id}.profraw")
+        LLVM_PROFILE_FILE = os.path.join(LLVM_PROFILE_DIR, f"{testcase_id}.profraw")
         my_env = os.environ.copy()
         my_env['LLVM_PROFILE_FILE'] = LLVM_PROFILE_FILE
 

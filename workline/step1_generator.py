@@ -12,15 +12,13 @@ BASE_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.append(BASE_DIR)
 
 from utils.config import MODEL_PATH
-from utils.worklineConfig import Hparams
+from utils.config import JS_DIR, CMD_JSHINT_DIR
 from workline.table_to_class.Table_Function_Class import Function_Object, write_to_Table_function, \
     makeFunctionListToWrite
 from workline.mysql_tools.Table_Operation import Table_Function
 
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from transformers import pipeline
-
-hparams = Hparams().parser.parse_args()
 
 
 # Table_Function format
@@ -29,7 +27,7 @@ hparams = Hparams().parser.parse_args()
 
 class sourceToTable:
     def __init__(self):
-        self.js_dir = hparams.js_dir
+        self.js_dir = JS_DIR
         # self.js_dir = r"/root/COMFUZZ/COMFUZZ_js/data/JStestcases/"
         self.lis = []
 
@@ -67,7 +65,7 @@ class enrich_function:
             :return: Returns true with correct syntax and false with incorrect syntax
             """
             # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-            cmd = ['timeout', '10s', 'jshint', '-c', hparams.cmd_jshint_dir, temp_file_path]
+            cmd = ['timeout', '10s', 'jshint', '-c', CMD_JSHINT_DIR, temp_file_path]
 
             if sys.platform.startswith('win'):  # If it's windows
                 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)

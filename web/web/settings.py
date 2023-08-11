@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from pathlib import Path
-import os
+import os, sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # from src.utils.sql_config import *
@@ -23,7 +23,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # sys.path.append(str(BASE_DIR.parent))
 
 # from utils.sql_config import DATABASE_NAME
-
 
 
 # Quick-start development settings - unsuitable for production
@@ -90,22 +89,6 @@ WSGI_APPLICATION = 'web.wsgi.application'
 #     }
 # }
 
-
-# DATABASES = {
-#     'default': {
-#         # 这里可以指定使用的数据库类型，例如mysql
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'comfort_django',
-#         'USER': 'root',
-#         'PASSWORD': 'mysql123',
-#         'HOST': '127.0.0.1',
-#         'PORT': '8888',
-#         'OPTIONS': {
-#             'charset': 'utf8mb4'
-#         }
-#     }
-# }
-
 DATABASES = {
     'default': {
         # 这里可以指定使用的数据库类型，例如mysql
@@ -157,7 +140,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-print(STATICFILES_DIRS)
+# print(STATICFILES_DIRS)
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

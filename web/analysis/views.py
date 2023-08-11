@@ -10,11 +10,7 @@ from .models import Testbed, Testcase, Result, Suspicious_Result
 from .tables import TestbedTable
 
 
-
-
-
 def show_testcase(request):
-
     Testcase_id = request.GET.get('id')
     if not Testcase_id:
         Testcase_id = 1
@@ -29,8 +25,6 @@ def show_testcase(request):
     print(remark)
 
     return render(request, 'testcase.html', locals())
-
-
 
 
 def harness(request):
@@ -51,21 +45,16 @@ def harness(request):
                 all_testcase.first().Probability,
                 all_testcase.first().Remark]
 
-
     Testcase_context = testcase[1]
-
 
     return render(request, 'harness.html', locals())
 
 
-
 def herness_ajax(request):
-
     herness_ajax = request.POST.get("herness_ajax")
     testcase_id = request.POST.get("Testcase_id")
     # print(herness_ajax)
     # print(testcase_id)
-
 
     all_testcase = Testcase.objects.filter(id=testcase_id)
 
@@ -111,6 +100,7 @@ def herness_ajax(request):
     # return HttpResponse(harness_result)
     return HttpResponse(dic)
 
+
 def remark_ajax(request):
     remark_ajax = request.POST.get("remark_ajax")
     testcase_id = request.POST.get("Testcase_id")
@@ -120,6 +110,7 @@ def remark_ajax(request):
     all_suspicious_result.update(Remark=remark_ajax)
 
     return HttpResponse("remark保存成功")
+
 
 def get_remark_ajax(request):
     testcase_id = request.POST.get("Testcase_id")
@@ -135,9 +126,6 @@ def get_remark_ajax(request):
     dic = json.dumps(dic)
     # print(dic)
     return HttpResponse(dic)
-
-
-
 
 
 class testbed(SingleTableView):
