@@ -4,6 +4,10 @@ COMFUZZ is a compiler fuzzing framework that combining generative and mutation t
 devotes to generating the bug-exposing test cases by using historical test programs, and performs the focused testing by
 leveraging carefully designed bug-guided mutators.
 
+## COMFUZZ_Js install
+- step1 : `git clone https://github.com/AidPaike/COMFUZZ_Js.git`  
+- step2 : `git lfs pull`
+
 ## Docker Image
 
 We provide a [Docker image](https://zenodo.org/record/7602317) to run "out of box". The docker image was tested on a
