@@ -3,14 +3,12 @@ import os
 import subprocess
 
 from workline.mysql_tools.Table_Operation import Table_Testcase
-from utils.worklineConfig import Hparams
-
-hparams = Hparams().parser.parse_args()
+from utils.config import COV_PATH
 
 
 def removeCov(self, *profraws):
     # COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
-    COV_PATH = hparams.COV_PATH
+    COV_PATH = COV_PATH
     PROFRAWS_PATH = COV_PATH + "/profraws"
 
     profraws_cmd = ''

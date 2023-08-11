@@ -8,9 +8,8 @@ import time
 from workline.mysql_tools.Table_Operation import Table_Testcase, Table_Function
 from workline.assemble_tools.callable_processor import CallableProcessor
 
-from utils.worklineConfig import Hparams
+from utils.config import CMD_JSHINT_DIR
 
-hparams = Hparams().parser.parse_args()
 
 
 class Function_Object(object):
@@ -281,7 +280,7 @@ class Function_Object(object):
     def cmd_jshint(self, temp_file_path):
         # cmd = ['timeout', '60s', 'jshint', temp_file_path]
         # cmd = ['timeout', '60s', 'jshint', '-c', '/root/COMFUZZ/COMFUZZ_js/data/.jshintrc', temp_file_path]
-        cmd = ['timeout', '60s', 'jshint', '-c', hparams.cmd_jshint_dir, temp_file_path]
+        cmd = ['timeout', '60s', 'jshint', '-c', CMD_JSHINT_DIR, temp_file_path]
 
         if sys.platform.startswith('win'):
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)

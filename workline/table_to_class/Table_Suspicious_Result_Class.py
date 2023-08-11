@@ -5,12 +5,11 @@ from pprint import pprint
 
 from workline.mysql_tools.Table_Operation import Table_Testcase, Table_Result, Table_Suspicious_Result
 from workline.table_to_class.Table_Result_Class import Result_Object
-from utils.worklineConfig import Hparams
+from utils.config import FILTER_INFO_PATH
 
-hparams = Hparams().parser.parse_args()
 
 # with open('/root/COMFUZZ/COMFUZZ_js/workline/filter_info.yml', 'r', encoding='utf-8') as fr:
-with open(hparams.filter_info_path, 'r', encoding='utf-8') as fr:
+with open(FILTER_INFO_PATH, 'r', encoding='utf-8') as fr:
     filter_info = yaml.load(fr, Loader=yaml.SafeLoader)['returncode_type']
 
 

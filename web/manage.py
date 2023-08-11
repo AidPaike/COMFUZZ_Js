@@ -7,11 +7,6 @@ from pathlib import Path
 
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.append(BASE_DIR)
-from utils.worklineConfig import Hparams
-
-hparams = Hparams().parser.parse_args()
-print(hparams)
-
 
 def main():
     """Run administrative tasks."""
