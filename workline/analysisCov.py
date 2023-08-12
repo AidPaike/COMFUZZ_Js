@@ -2,7 +2,11 @@
 # 2. Variation seed coverage rate acquisition
 # 3. Comparison of coverage rates between the two
 import json
-import statistics
+import statistics, sys
+from pathlib import Path
+
+BASE_DIR = str(Path(__file__).resolve().parent.parent)
+sys.path.append(BASE_DIR)
 
 from workline.mysql_tools.Table_Operation import Table_Testcase, Table_Suspicious_Result, Table_Result
 
@@ -18,12 +22,10 @@ def findCovByTestcaseId(id):
 
     json_dict_total = json_dict['data'][0]['totals']
 
-
     return json_dict_total
 
 
 def compareMutateTestcaseCov(id):
-
     covJson = findCovByTestcaseId(id)
     functions_percent = covJson['functions']['percent']
     lines_percent = covJson['lines']['percent']
@@ -33,7 +35,8 @@ def compareMutateTestcaseCov(id):
     print('*' * 20 + f'Use case {id} mutates to generate {len(mutate_list)} use cases' + '*' * 20)
 
     print(
-        'Before the mutation, method coverage is {:.2f}%, line coverage is {:.2f}%, and code block coverage is {:.2f}%'.format(id, functions_percent, lines_percent, regions_percent))
+        'Before the mutation, method coverage is {:.2f}%, line coverage is {:.2f}%, and code block coverage is {:.2f}%'.format(
+            id, functions_percent, lines_percent, regions_percent))
 
     functions_percent_lis = []
     lines_percent_lis = []
@@ -62,13 +65,15 @@ def compareMutateTestcaseCov(id):
     lines_percent_average = statistics.mean(lines_percent_lis)
     regions_percent_average = statistics.mean(regions_percent_lis)
     print(
-        'Variation method after coverage up to{:.2f}%,line coverage up to{:.2f}%，the block of code coverage up to{:.2f}%'.format(id, functions_percent_max, lines_percent_max,
-                                                                     regions_percent_max))
+        'Variation method after coverage up to{:.2f}%,line coverage up to{:.2f}%，the block of code coverage up to{:.2f}%'.format(
+            id, functions_percent_max, lines_percent_max,
+            regions_percent_max))
 
     print(
-        'Variation method coverage after an average of{:.2f}%,the average line coverage for{:.2f}%，the average line coverage for{:.2f}%'.format(id, functions_percent_average,
-                                                                     lines_percent_average,
-                                                                     regions_percent_average))
+        'Variation method coverage after an average of{:.2f}%,the average line coverage for{:.2f}%，the average line coverage for{:.2f}%'.format(
+            id, functions_percent_average,
+            lines_percent_average,
+            regions_percent_average))
 
 
 # for item in list_unMutate:
@@ -77,5 +82,5 @@ def compareMutateTestcaseCov(id):
 
 if __name__ == '__main__':
 
-    for item in [3,28,31,37,39]:
+    for item in [3, 28, 31, 37, 39]:
         compareMutateTestcaseCov(item)
