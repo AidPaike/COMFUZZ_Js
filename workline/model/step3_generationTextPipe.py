@@ -3,14 +3,15 @@
 import time, os, sys
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from transformers import pipeline
-from utils.config import MODEL_BASEPATH
+from utils.config import MODEL_PATH
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 def generationTextPipe(
         # model_name_or_path="/root/COMFUZZ/comfuzz/data/train_model/distilgpt2_finetune/checkpoint-160000",
-        model_name_or_path=os.path.join(MODEL_BASEPATH, "distilgpt2/checkpoint-640000"),
+        # model_name_or_path=os.path.join(MODEL_BASEPATH, "distilgpt2/checkpoint-640000"),
+        model_name_or_path=MODEL_PATH,
         prefixList=["""function("""],
         num_return_sequences=50,
         max_length=512,
@@ -41,7 +42,7 @@ def generationTextPipe(
 if __name__ == '__main__':
     prefixList = []
     prefix1 = """function("""
-    prefix2 = """function(a,"""
+    # prefix2 = """function(a,"""
     prefixList.append(prefix1)
-    prefixList.append(prefix2)
+    # prefixList.append(prefix2)
     generationTextPipe(prefixList=prefixList)

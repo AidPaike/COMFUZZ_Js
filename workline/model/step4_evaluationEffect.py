@@ -16,9 +16,8 @@ import tempfile
 import os
 
 from workline.model.step3_generationTextPipe import generationTextPipe
-from utils.worklineConfig import Hparams
+from utils.config import MODEL_PATH, TRAIN_DATASETS, CMD_JSHINT_DIR
 
-hparams = Hparams().parser.parse_args()
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
@@ -30,7 +29,7 @@ def cmd_jshint(temp_file_path):
     :return: return true if syntax is correct, false if syntax is wrong
     """
     # cmd = ['timeout', '60s', 'jshint', temp_file_path]
-    cmd = ['timeout', '10s', 'jshint', '-c', hparams.cmd_jshint_dir, temp_file_path]
+    cmd = ['timeout', '10s', 'jshint', '-c', CMD_JSHINT_DIR, temp_file_path]
 
     if sys.platform.startswith('win'):  # If it's windows
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
@@ -76,7 +75,7 @@ def repetitionRateGeneratedDataItself(allFunctions):
 
 def generateDataWithRepetitionRateTrainingSet(function):
     # trainDataFile = '/root/COMFUZZ/COMFUZZ_js/data/datasets/train_data_bos.txt'
-    trainDataFile = hparams.train_datasets
+    trainDataFile = TRAIN_DATASETS
     with open(trainDataFile, 'r') as f:
         trainDatasetContents = f.read()
         if function in trainDatasetContents:
@@ -95,7 +94,8 @@ def multithreadedAnalysis(function):
 
 
 # model_name = "/root/COMFUZZ/COMFUZZ_js/data/train_model/distilgpt2_new/checkpoint-640000"
-model_name = os.path.join(hparams.model_path, "distilgpt2/checkpoint-640000")
+# model_name = os.path.join(MODEL_BASEPATH, "distilgpt2/checkpoint-640000")
+model_name = MODEL_PATH
 
 num = 50
 

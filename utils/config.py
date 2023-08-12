@@ -20,14 +20,14 @@ JS_DIR = os.path.join(COMFUZZ_JS_Path, 'data/JStestcases/')
 ## cmd jshint
 CMD_JSHINT_DIR = os.path.join(COMFUZZ_JS_Path, 'data/.jshintrc')
 
-##LLVM PROFILE dir
+## LLVM PROFILE dir
 LLVM_PROFILE_DIR = os.path.join(COMFUZZ_JS_Path, "data/cov_files/profraws/")
 
 ## model base path
 MODEL_BASEPATH = os.path.join(COMFUZZ_JS_Path, "data/train_model/")
 
 ## train dataset path
-TRAIN_DATASETS = os.path.join(COMFUZZ_JS_Path, "data/datasets/train_data_bos.txt")
+TRAIN_DATASETS = os.path.join(COMFUZZ_JS_Path, "data/train_data_bos.txt")
 
 ## filter info path
 FILTER_INFO_PATH = os.path.join(COMFUZZ_JS_Path, "workline/filter_info.yml")
