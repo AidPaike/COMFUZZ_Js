@@ -5,7 +5,8 @@ devotes to generating the bug-exposing test cases by using historical test progr
 leveraging carefully designed bug-guided mutators.
 
 ## COMFUZZ_Js install
-- step1 : `git clone https://github.com/AidPaike/COMFUZZ_Js.git`  
+
+- step1 : `git clone https://github.com/AidPaike/COMFUZZ_Js.git`
 - step2 : `git lfs pull`
 
 ## Docker Image
@@ -15,10 +16,11 @@ host machine running Ubuntu 18.04.
 The docker image contains the following scripts for running COMFUZZ:
 
 * [step1_generator.py](workline/step1_generator.py): the script that generates test programs according to historical
-  test programs.
-* [step2_init.py](workline/step2_init.py): the script that builds the initial seed pool.
+  test programs.(On a normal server, when limit_num=100, it takes about 2000s)
+* [step2_init.py](workline/step2_init.py): the script that builds the initial seed pool. (On a normal server, it takes
+  about 1452s to assemble 20000 functions)
 * [step3_harness.py](workline/step3_harness.py): the script that performs the differential testing on target compilers.
-  js/java
+  js/java ()
 * [step4_mutation.py](workline/step4_mutation.py): the script that mutates the interesting test cases for focused and
   intensive testing.
 

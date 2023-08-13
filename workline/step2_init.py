@@ -42,6 +42,8 @@ class initproject:
 
 
 class removeDB:
+    """Reformatting the database can be used when data needs to be reconstructed"""
+
     def __init__(self):
         self.start_time = time.time()
         self.table_Function = Table_Function()

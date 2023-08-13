@@ -55,6 +55,7 @@ class sourceToTable:
 
 
 class enrich_function:
+    """"""
     def __init__(self):
         self.FunctionsJshintPassSet = set()
         self.FunctionsReplaceBlockSetJshintPassSet = set()
