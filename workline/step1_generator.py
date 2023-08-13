@@ -26,6 +26,8 @@ from transformers import pipeline
 
 
 class sourceToTable:
+    """Read the initial data and write it to the database"""
+
     def __init__(self):
         self.js_dir = JS_DIR
         # self.js_dir = r"/root/COMFUZZ/COMFUZZ_js/data/JStestcases/"
@@ -96,7 +98,7 @@ class enrich_function:
             # tmpTxt = tmpfile.read().decode()
             # print(tmpTxt)
             result = cmd_jshint(temp_file_path)
-            return result
+        return result
 
     def functionJshintPassMutil(self, function):
         """
