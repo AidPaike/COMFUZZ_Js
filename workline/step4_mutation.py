@@ -111,7 +111,7 @@ class mutation:
         table_testcase = Table_Testcase()
         list_unMutate = table_testcase.selectInterestingTimeFromTableTestcase(interesting_times, Fuzzing_times)
         testcase_object_list = []
-        # print('There are {} use cases ready to mutate'.format(len(list_unMutate)))
+        print('There are {} use cases ready to mutate'.format(len(list_unMutate)))
         for unMutate_item in list_unMutate:
             testcase_object = Testcase_Object(unMutate_item)
             # testcase_object.update_fuzzing_times(99)

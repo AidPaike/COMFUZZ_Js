@@ -8,7 +8,7 @@ from step1_generator import sourceToTable, enrich_function
 from step2_init import initproject, removeDB
 from step3_harness import harness, analysis
 from step4_mutation import mutation
-from step5_filter import loopProject
+from loopProject import loopProject
 
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
 sys.path.append(BASE_DIR)
@@ -41,6 +41,7 @@ if __name__ == '__main__':
     print('enrich function is used:', int(time.time() - generator_start), 's')
     #
     # step2 init
+    print("init begin")
     initproject = initproject()
     initproject.run()
 
@@ -55,17 +56,18 @@ if __name__ == '__main__':
     loop_times = 0
     interesting_times = 0
     Fuzzing_times = 0
-    loopproject = loopProject()
+    loopproject = loopProject(1, 0)
     while True:
         print('now interesting_times={},fuzzing_times={},loop_times={}'.format(
             interesting_times,
             Fuzzing_times, loop_times))
-        list_interesting, len_list_interesting = loopproject.run(interesting_times, Fuzzing_times)
+        list_interesting, len_list_interesting = loopproject.run()
         if len_list_interesting == 0 or loop_times == hparams.loop_times:
             interesting_times = 0
             Fuzzing_times = 1
             loop_times = 0
         else:
+            print("begin harness")
             harness.run(list_unharness=list_interesting)
             analysis.run()
             interesting_times = 1
@@ -77,6 +79,8 @@ if __name__ == '__main__':
             harness.run(harness.list_11())
             analysis.run()
             loop_times += 1
+            interesting_times = 0
+            Fuzzing_times = 1
         elif interesting_times == 0 and Fuzzing_times == 1:
             # print('It is no longer interesting or looptimes when it enters the general variant')
             mutation.run('universal', interesting_times, Fuzzing_times)
