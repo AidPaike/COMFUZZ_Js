@@ -11,7 +11,6 @@ from workline.assemble_tools.callable_processor import CallableProcessor
 from utils.config import CMD_JSHINT_DIR
 
 
-
 class Function_Object(object):
 
     def __init__(self, function_object):
@@ -317,7 +316,7 @@ class Function_Object(object):
 
             table_Testcase.insertManyDataToTableTestcase(testcases_list_to_write)
 
-            # print(function_assemle)
+
         except:
             pass
 

@@ -39,6 +39,7 @@ class initproject:
             print('#' * 20 + 'init testbed success' + '#' * 20)
         except Exception as e:
             print('init testbed fail:' + str(e))
+            print('init testbed maybe has been done, please check testbed table!')
 
 
 class removeDB:
