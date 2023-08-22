@@ -81,6 +81,9 @@ For more details, you can use `python3 main.py --help` to see what this paramete
 ---
 
 You can also use the following step-by-step instructions to run COMFUZZ:
+### Step0. Decompression:c
+
+```python3 /root/Comfuzz/COMFUZZ_js/workline/step0_preparation.py```
 
 ### Step1. Generate test program:
 
@@ -95,6 +98,10 @@ You can also use the following step-by-step instructions to run COMFUZZ:
 ```python3 /root/Comfuzz/COMFUZZ_js/workline/step3_harness.py```
 
 ### Step4. Mutation:
+
+```python3 /root/Comfuzz/COMFUZZ_js/workline/step4_mutation.py```
+
+### Step5. dilter:
 
 ```python3 /root/Comfuzz/COMFUZZ_js/workline/step4_mutation.py```
 
