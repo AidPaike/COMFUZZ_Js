@@ -4,13 +4,13 @@
 # BASE_DIR = str(Path(__file__).resolve().parent.parent.parent)
 # sys.path.append(BASE_DIR)
 import subprocess
-import sys, re
+import sys, re, os, pathlib, logging
 import tempfile
 from workline.harness_tools.harness_class import Harness
 from workline.mysql_tools.Table_Operation import Table_Testcase, Table_Function
 from workline.table_to_class.Table_Function_Class import Function_Object
 from utils.config import COV_PATH, UNIVERSAL_MUTATION_PATH, SPECIAL_MUTATION_PATH, CMD_JSHINT_DIR
-
+from utils.config import LLVM_PROFILE_DIR
 
 
 class Testcase_Object(object):
@@ -346,6 +346,7 @@ class Testcase_Object(object):
         AllCov = ''
 
         # print(testcase_object.Engine_coverage_integration_all)
+        # print("self.SourceTestcase_id: ", self.SourceTestcase_id)
         if (self.SourceTestcase_id != 0):
             SourceCov = self.getSourceCov()
 
@@ -375,16 +376,24 @@ class Testcase_Object(object):
             AllCov = self.getAllCov(self.testcase_list)
 
         # print(AllCov)
-
-        return OwnCov, SourceCov, AllCov
+        self.Engine_coverage = OwnCov
+        self.Engine_coverage_integration_source = SourceCov
+        self.Engine_coverage_integration_all = AllCov
+        if OwnCov and SourceCov and AllCov:
+            if SourceCov > OwnCov or AllCov > OwnCov:
+                # print("OwnCov: ", OwnCov)
+                # print("SourceCov: ", SourceCov)
+                # print("AllCov: ", AllCov)
+                return True
+        return False
 
     def processCov(self, *profraws):
-        # print(profraws)
+        # print("processCov profraws: ", profraws)
         profraws_len = len(profraws)
         # COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
-        COV_PATH = COV_PATH
         # PROFDATA_PATH = f"{COV_PATH}/profdatas/{profraws[0]}_{profraws_len}.prodata"
         PROFDATA_PATH = f"{COV_PATH}/profdatas/{profraws[0]}_{profraws_len}.prodata"
+        # print("PROFDATA_PATH: ", PROFDATA_PATH)
         PROFRAWS_PATH = COV_PATH + "/profraws"
         COV_ENGHINES_PATH = '/root/.jsvu/engines/chakra-1.13-cov/ch'
 
@@ -392,40 +401,60 @@ class Testcase_Object(object):
         for fraws in profraws:
             profraws_cmd += f'{PROFRAWS_PATH}/{fraws}.profraw '
 
-        cmd_coverage = f'llvm-profdata-10 merge -o {PROFDATA_PATH} {profraws_cmd} && llvm-cov-10 export {COV_ENGHINES_PATH} -instr-profile={PROFDATA_PATH} && rm {PROFDATA_PATH}'
-        # print(cmd_coverage)
+        cmd_coverage = f'llvm-profdata-6.0 merge -o {PROFDATA_PATH} {profraws_cmd} && llvm-cov-6.0 export {COV_ENGHINES_PATH} -instr-profile={PROFDATA_PATH} && rm {PROFDATA_PATH}'
+        # print("cmd_coverage: ", cmd_coverage)
         pro = subprocess.Popen(cmd_coverage, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True,
                                stderr=subprocess.PIPE, universal_newlines=True)
         stdout, stderr = pro.communicate()
-        print(stdout)
-        print(stderr)
+        # print(stdout)
+        # print(stderr)
         coverage_stdout_finally = self.del_useless_json_info(stdout)
+        # print("processCov:  ", coverage_stdout_finally)
         return coverage_stdout_finally
 
     def processAllCov(self, *profraws):
-        # print(profraws)
+        # print("AllCovProfraws: ", profraws)
         profraws_len = len(profraws)
         # COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
-        COV_PATH = COV_PATH
         PROFDATA_PATH = f"{COV_PATH}/profdatas/{profraws[0]}_{profraws_len}.prodata"
         PROFRAWS_PATH = COV_PATH + "/profraws"
         COV_ENGHINES_PATH = '/root/.jsvu/engines/chakra-1.13-cov/ch'
 
         profraws_cmd = ''
         for fraws in profraws:
+            cmd_list = ["timeout", "-s9", '30', COV_ENGHINES_PATH]
             profraws_cmd += f'{PROFRAWS_PATH}/{fraws}.profraw '
+            LLVM_PROFILE_FILE = os.path.join(LLVM_PROFILE_DIR, f"{fraws}.profraw")
+            # print("LLVM_PROFILE_FILE: ", LLVM_PROFILE_FILE)
+            my_env = os.environ.copy()
+            my_env['LLVM_PROFILE_FILE'] = LLVM_PROFILE_FILE
+            table_Testcase = Table_Testcase()
+            # print(fraws)
+            testcase_tmp = table_Testcase.selectIdFromTableTestcase(fraws)
+            # print("testcase_tmp: ", testcase_tmp[0][1])
+            with tempfile.NamedTemporaryFile(prefix="javascriptTestcase_", suffix=".js", delete=True) as f:
+                testcase_path = pathlib.Path(f.name)
+                testcase_path.write_bytes(bytes(testcase_tmp[0][1], encoding="utf-8"))
+                cmd_list.append(str(testcase_path))
+                # print("cmd_list: ", cmd_list)
+                pro = subprocess.Popen(cmd_list, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=False,
+                                       env=my_env, stderr=subprocess.PIPE, universal_newlines=True)
+                stdout, stderr = pro.communicate()
+                # print("stdout: ", stdout)
+                # print("stderr: ", stderr)
 
-        cmd_coverage = f'llvm-profdata-10 merge -o {PROFDATA_PATH} {profraws_cmd} && llvm-cov-10 export {COV_ENGHINES_PATH} -instr-profile={PROFDATA_PATH} && rm {PROFDATA_PATH}'
-        # print(cmd_coverage,"cmd_coverage")
+        cmd_coverage = f'llvm-profdata-6.0 merge -o {PROFDATA_PATH} {profraws_cmd} && llvm-cov-6.0 export {COV_ENGHINES_PATH} -instr-profile={PROFDATA_PATH} && rm {PROFDATA_PATH}'
+        # print("cmd_coverage: ", cmd_coverage)
         pro = subprocess.Popen(cmd_coverage, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True,
                                stderr=subprocess.PIPE, universal_newlines=True)
         stdout, stderr = pro.communicate()
+        # print(stderr)
         coverage_stdout_finally = self.del_useless_json_info(stdout)
+        # print("processAllCov: ", coverage_stdout_finally)
         return coverage_stdout_finally
 
     def removeCov(self, *profraws):
         # COV_PATH = "/root/COMFUZZ/COMFUZZ_js/data/cov_files"
-        COV_PATH = COV_PATH
         PROFRAWS_PATH = COV_PATH + "/profraws"
 
         profraws_cmd = ''
@@ -446,63 +475,29 @@ class Testcase_Object(object):
 
     def getAllCov(self, otherTestcaseFromSameSourceTestcase):
         coverage_stdout_finally = None
-        try:
-            coverage_stdout_finally = self.processAllCov(*otherTestcaseFromSameSourceTestcase)
-            self.removeCov(*otherTestcaseFromSameSourceTestcase)
-
-        except:
-            pass
-
+        coverage_stdout_finally = self.processAllCov(*otherTestcaseFromSameSourceTestcase)
+        # self.removeCov(*otherTestcaseFromSameSourceTestcase)
         return coverage_stdout_finally
 
     def del_useless_json_info(self, json_info):
-        res = """"""
         import json
-        # print(json_info,"json_info")
-        json_dict = json.loads(json_info)
-
-        # -data
-        #     -files:print(json_str['data'][0]['files']) （list）
-        #         -expansions：没用
-        #         -filename：
-        #         -segments：没用
-        #         -summary：
-        #             -function：
-        #                 -count
-        #                 covered
-        #                 percent;
-        #             instantiations:
-        #                 -count
-        #                 covered
-        #                 percent;
-        #             lines:
-        #                 -count
-        #                 covered
-        #                 percent;
-        #             regions:
-        #                 -count
-        #                 covered
-        #                 notcovered
-        #                 percent;
-        #     functions:print(json_str['data'][0]['functions'])
-        #     totals:print(json_str['data'][0]['totals'])
-        #             : functions: print(json_str['data'][0]['totals']['functions'])
-        #             : instantiations :print(json_str['data'][0]['totals']['instantiations'])
-        #             : lines:print(json_str['data'][0]['totals']['lines'])
-        #             : regions:print(json_str['data'][0]['totals']['regions'])
-
-        # -type
-        # -version
-
-        # print(json_dict)
-
-        for item in ['type', 'version']:
-            del json_dict[item]
-
-        # del json_dict['data'][0]['files'][0]['expansions']
-        for item in json_dict['data'][0]['files']:
-            for del_item in ['expansions', 'segments']:
-                del item[del_item]
-        del json_dict['data'][0]['functions']
-        small_json_info = json.dumps(json_dict)
+        # print("json_info: ", json_info)
+        if json_info:
+            json_dict = json.loads(json_info)
+            # small_json_info = json_dict['data'][0]['totals']['lines']['percent']
+            small_json_info = (json_dict['data'][0]['totals']['lines']['covered'] /
+                               json_dict['data'][0]['totals']['lines']['count'])
+            # print("small_json_info: ", small_json_info)
+        else:
+            # print("json_info: ", json_info)
+            small_json_info = None
+        # for item in ['type', 'version']:
+        #     del json_dict[item]
+        #
+        # # del json_dict['data'][0]['files'][0]['expansions']
+        # for item in json_dict['data'][0]['files']:
+        #     for del_item in ['expansions', 'segments']:
+        #         del item[del_item]
+        # del json_dict['data'][0]['functions']
+        # small_json_info = json.dumps(json_dict)
         return small_json_info

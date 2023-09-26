@@ -264,7 +264,6 @@ class ThreadLock(Thread):
         # stdout1, stderr1 = pro1.communicate()
         # print(stderr1)
         # coverage_stdout_finally = self.del_useless_json_info(stdout1)
-
         # return output, coverage_stdout_finally
         return output
 

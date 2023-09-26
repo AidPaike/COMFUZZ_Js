@@ -20,7 +20,8 @@ class harness:
     def __init__(self):
         self.table_Testcases = Table_Testcase()
         # Obtain the undifferentiated test case, make the difference, and insert the difference result into the database
-        self.list_unharness = self.table_Testcases.selectFuzzingTimeFromTableTestcase(0)
+        self.list_unharness = self.table_Testcases.selectFuzzingTimeFromTableTestcase(1)
+        # self.list_unharness = self.table_Testcases.selectSourceTestcaseIdFromTableTestcase(1)
         self.pbar = tqdm(total=len(self.list_unharness))
         # print("There are %d undifferentiated test cases" % len(self.list_unharness))
 
@@ -33,6 +34,9 @@ class harness:
         # Whether to store in database
         save2ResultTable = True
         if save2ResultTable:
+            cov_flag = testcase_object.getCov()
+            if cov_flag:
+                testcase_object.add_interesting_times(1)
             # vote
             different_result_list = harness_result.differential_test()
             if len(different_result_list):
@@ -48,6 +52,7 @@ class harness:
                     interesting_test_result.save_to_table_suspicious_Result()
             # else:
             #     testcase_object.subtract_interesting_times(1)
+
             testcase_object.updateFuzzingTimesInterestintTimesCovInfo()
 
     def get_list(self):
