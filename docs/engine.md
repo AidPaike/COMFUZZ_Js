@@ -65,6 +65,7 @@ The setup can also through using `https://github.com/GoogleChromeLabs/jsvu`.
 
 
 ## Google cloud
-Compression packages available in google cloud [https://drive.google.com/file/d/1i0KdKys5fbxS3thC4igEMlIpHAcDzT3J/view?usp=sharing](https://drive.google.com/file/d/1i0KdKys5fbxS3thC4igEMlIpHAcDzT3J/view?usp=sharing), `tar -zxvf ch_hermes_jerry.tar`
-Compression packages available in google cloud [https://drive.google.com/file/d/1M6sIsFTLq5M12PbzyAngpEy6s_acs3uH/view?usp=sharing](https://drive.google.com/file/d/1M6sIsFTLq5M12PbzyAngpEy6s_acs3uH/view?usp=sharing), `tar -zxvf chakra-1.13-cov.tar`
-
+ch_hermes_jerry packages available in google cloud [https://drive.google.com/file/d/1i0KdKys5fbxS3thC4igEMlIpHAcDzT3J/view?usp=sharing](https://drive.google.com/file/d/1i0KdKys5fbxS3thC4igEMlIpHAcDzT3J/view?usp=sharing), `tar -zxvf ch_hermes_jerry.tar`
+chakra-1.13-cov packages available in google cloud [https://drive.google.com/file/d/1fzXb0hctLW9wb3YbFE860V2kMdpfBwnV/view?usp=sharing](https://drive.google.com/file/d/1fzXb0hctLW9wb3YbFE860V2kMdpfBwnV/view?usp=sharing), `tar -zxvf chakra-1.13-cov.tar`
+jerryscript-asan packages available in google cloud [https://drive.google.com/file/d/1oe3K1CXFksqswagAtd9WKqXHP2vzZimF/view?usp=sharing](https://drive.google.com/file/d/1oe3K1CXFksqswagAtd9WKqXHP2vzZimF/view?usp=sharing), `cd /root/.jsvu/engines && tar -zxvf jerryscript-asan.tar`
+chakra-asan packages available in google cloud [https://drive.google.com/file/d/1cSw0q16ZVAb2cfqVO7zKIYCn_vrydXs9/view?usp=sharing](https://drive.google.com/file/d/1cSw0q16ZVAb2cfqVO7zKIYCn_vrydXs9/view?usp=sharing), `cd /root/.jsvu/engines && tar -zxvf chakra-asan.tar`
