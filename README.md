@@ -64,24 +64,39 @@ docker-compose up -d
 
 ## Run
 
-To facilitate testing, COMFUZZ provides quick-run command：
+To facilitate testing, COMFUZZ provides command (**Not recommended !**)：
+
+Includes initialization, assembly, and differential testing of large sample processes
 
 ```
 python3 main.py
 ```
 
-If you want to see how the overall process works：
+If you want a quick look at how the whole process works:
 
+Parameter description:
+
+`--enrich_limit_num: test program Number of generated items`
+
+`--loop_times: Count general and special compilations`
+
+`--clean_project: Empty the entire js database, not recommended!`
+
+### (**Recommend**)
 ```
-python3 main.py --enrich_limit_num=10 --loop_times=2 --clean_project
+python3 main.py --enrich_limit_num=5 --loop_times=2
 ```
+
+If the differential testing takes too long, you can `ctrl+c` quit halfway through and proceed directly to the `step5`
+suspicious use case screening for viewing suspicious use cases
 
 For more details, you can use `python3 main.py --help` to see what this parameter means.
 
 ---
 
 You can also use the following step-by-step instructions to run COMFUZZ:
-### Step0. Decompression:c
+
+### Step0. Decompression engine:
 
 ```python3 /root/Comfuzz/COMFUZZ_js/workline/step0_preparation.py```
 
@@ -97,15 +112,17 @@ You can also use the following step-by-step instructions to run COMFUZZ:
 
 ```python3 /root/Comfuzz/COMFUZZ_js/workline/step3_harness.py```
 
-### Step4. Mutation:
+### Step4. Mutation test case:
 
 ```python3 /root/Comfuzz/COMFUZZ_js/workline/step4_mutation.py```
 
-### Step5. dilter:
+### Step5. filter suspect test case:
 
-```python3 /root/Comfuzz/COMFUZZ_js/workline/step4_mutation.py```
+```python3 /root/Comfuzz/COMFUZZ_js/workline/step5_filter.py```
 
 ## Main Results
 
 The main results of our work is a [list of bugs](https://github.com/NWU-NISL-Fuzzing/COMFUZZ/blob/main/docs/Bug-List.md)
 exposed by COMFUZZ.
+
+
