@@ -80,8 +80,6 @@ class HarnessResult:
 
     def get_majority_output(self) -> Majority:
         """Majority vote on testcase outcomes and outputs."""
-        # print(result)
-
         majority_outcome, outcome_majority_size = collections.Counter([
             output.output_class for output in self.outputs
         ]).most_common(1)[0]
@@ -96,7 +94,7 @@ class HarnessResult:
             return []
         ratio = 2 / 3
         majority = self.get_majority_output()
-        # print("majority_outputs: ",majority)
+        # print("majority_outputs: ", majority)
 
         testbed_num = len(self.outputs)
 
@@ -242,11 +240,12 @@ class ThreadLock(Thread):
         cmd.append(str(testcase_path))
 
         start_time = labdate.GetUtcMillisecondsNow()
-
+        # print("cmd: ",cmd)
         pro = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=False, env=my_env,
                                stderr=subprocess.PIPE, universal_newlines=True)
         stdout, stderr = pro.communicate()
-
+        # print("stdout: ", stdout)
+        # print("stderr:", stderr)
         end_time = labdate.GetUtcMillisecondsNow()
         duration_ms = int(round(
             (end_time - start_time).total_seconds() * 1000))

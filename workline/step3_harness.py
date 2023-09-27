@@ -20,9 +20,9 @@ class harness:
     def __init__(self):
         self.table_Testcases = Table_Testcase()
         # Obtain the undifferentiated test case, make the difference, and insert the difference result into the database
-        self.list_unharness = self.table_Testcases.selectFuzzingTimeFromTableTestcase(1)
+        self.list_unharness = self.table_Testcases.selectFuzzingTimeFromTableTestcase(0)
         # self.list_unharness = self.table_Testcases.selectSourceTestcaseIdFromTableTestcase(1)
-        self.pbar = tqdm(total=len(self.list_unharness))
+        self.pbar = tqdm(total=len(self.list_unharness), desc='To be harness')
         # print("There are %d undifferentiated test cases" % len(self.list_unharness))
 
     def muti_harness(self, testcase):
@@ -31,6 +31,7 @@ class harness:
         start_time = time.time()
         # Get the difference result, each engine output
         harness_result = testcase_object.engine_run_testcase()
+        # print(harness_result)
         # Whether to store in database
         save2ResultTable = True
         if save2ResultTable:
@@ -82,7 +83,7 @@ class analysis:
         self.table_suspicious_Result = Table_Suspicious_Result()
         self.unfiltered_list = self.table_suspicious_Result.selectUnFilteredFromTable_Suspicious_Result()
         # self.unfiltered_list = self.table_suspicious_Result.selectUnFilteredFromTable_Suspicious_Result_with_error_type("'crash'")
-        self.pbar = tqdm(total=len(self.unfiltered_list))
+        self.pbar = tqdm(total=len(self.unfiltered_list), desc='To be filter')
         self.start_time = time.time()
 
     def muti_analysis(self, suspicious_Result):
@@ -110,6 +111,6 @@ class analysis:
 
 if __name__ == '__main__':
     harness = harness()
-    analysis = analysis()
     harness.run(harness.get_list())
+    analysis = analysis()
     analysis.run()
