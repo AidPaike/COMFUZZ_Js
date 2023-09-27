@@ -154,7 +154,7 @@ class enrich_function:
             function_object = Function_Object(item)
             Function_Object_List.append(function_object)
 
-        print(f"There is data that needs to be expanded:{len(Function_Object_List)}num.")
+        print(f"test program generate: {len(Function_Object_List)}num.")
         if Function_Object_List:
             start = time.time()
             print(f'Loading the model, this will take about 5 seconds, please wait')
@@ -228,4 +228,4 @@ if __name__ == '__main__':
     sourcetotable.run(js_dir=sourcetotable.js_dir)
     print('source To Table is used:', int(time.time() - start), 's')
     enrichfunction.run(limit_num=100)
-    print('enrich function is used:', int(time.time() - start), 's')
+    print('generate program is used:', int(time.time() - start), 's')

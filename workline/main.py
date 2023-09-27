@@ -40,8 +40,8 @@ if __name__ == '__main__':
     enrichfunction.run(limit_num=hparams.enrich_limit_num)
     print('enrich function is used:', int(time.time() - generator_start), 's')
     #
-    # step2 init
-    print("init begin")
+    # step2 assembling test case and init sql
+    print("assembling test case and init sql : ")
     initproject = initproject()
     initproject.run()
 
